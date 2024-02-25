@@ -3,7 +3,7 @@ import React from 'react'
 const Tv = (props) => {
   return (
     <>
-      <div className="grid place-items-center mt-10">
+      <div className={`grid place-items-center mt-10`}>
             <div className="bg-zinc-900 p-5 rounded-3xl">
               <video
                 autoPlay

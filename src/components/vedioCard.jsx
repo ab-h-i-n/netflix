@@ -3,13 +3,13 @@ import Tv from './Tv'
 
 const VedioCard = () => {
 
-    const [movieList,setMoiveList ] = useState([]);
-    
+    const [movieList, setMoiveList] = useState([]);
+
     useEffect(() => {
         fetch('https://6587d02290fa4d3dabf92599.mockapi.io/movielist')
-          .then(response => response.json())
-          .then(json => setMoiveList(json))
-          .catch(error => console.error(error));
+            .then(response => response.json())
+            .then(json => setMoiveList(json))
+            .catch(error => console.error(error));
     }, []);
 
 
@@ -20,21 +20,22 @@ const VedioCard = () => {
             {
                 movieList.map((movie, index) => (
 
-                    <div key={movie.id} id={movie.id} className={`border-t-8 border-zinc-700 bg-zinc-950 px-20 py-10 text-white grid grid-cols-2 place-items-center `}>
+                    <div key={movie.id} id={movie.id} className={`gap-y-5 border-t-8 border-zinc-700 bg-zinc-950 px-20 py-10 text-white grid grid-cols-1 md:grid-cols-2 place-items-center `}>
+
+                        <Tv src={movie.video_url} />
+
                         {/* heading  and description*/}
 
-                        <div className={`grid gap-y-5  ${index % 2 === 0 ? 'order-last' : ''} `}>
+                        <div className={`grid gap-y-5  ${index % 2 === 0 ? '' : 'md:order-first'} `}>
                             {/* heading  */}
 
-                            <h1 className='text-3xl'>{movie.heading}</h1>
+                            <h1 className='text-3xl text-center md:text-left'>{movie.heading}</h1>
 
                             {/* paragraph  */}
 
                             <p>{movie.description}</p>
 
                         </div>
-
-                        <Tv src={movie.video_url} />
 
                     </div>
 
