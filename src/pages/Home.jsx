@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import vedioCard from "../components/vedioCard";
+import VedioCard from "../components/VedioCard";
 
 function Home() {
 
@@ -50,7 +50,7 @@ function Home() {
           <div className="bg-zinc-900 mt-5 w-40 h-10 rounded-3xl"></div>
         </div>
 
-        <vedioCard />
+        <VedioCard />
 
       </div>
     </div>
