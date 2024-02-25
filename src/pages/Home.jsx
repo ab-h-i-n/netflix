@@ -1,23 +1,31 @@
-import React from "react";
-import BgImg from "../components/BgImg";
+import React, { useState } from "react";
+import vedioCard from "../components/vedioCard";
 
 function Home() {
+
+   const [active, setActive] = useState(false);
+   const [netflixVer,setNetflixVer] = useState(0);
+
   return (
     <div>
-      <BgImg />
+
 
       {/* Home contents   */}
 
-      <div className="pt-20 min-h-screen text-white">
+      <div className="pt-6 min-h-screen text-white">
         {/*sub heaing  */}
 
-        <p className="font-light text-3xl text-center">
-          Welcome Back to Netflix
+        <p className={`font-light text-lg md:text-3xl flex justify-center gap-x-4`}>
+          Welcome Back to <p onClick={()=>{
+          setActive(!active)
+          setNetflixVer(netflixVer + 1)
+        }} className={` text-${ active ? 'red-500'  : 'white' } select-none cursor-pointer`}>Netflix {netflixVer}.0</p>
+         
         </p>
 
         {/* heading  */}
 
-        <h1 className="mt-3 font-black text-center text-6xl">
+        <h1 className="mt-3 font-black text-center text-4xl md:text-6xl">
           Unlimited movies, TV shows and more
         </h1>
 
@@ -41,6 +49,9 @@ function Home() {
 
           <div className="bg-zinc-900 mt-5 w-40 h-10 rounded-3xl"></div>
         </div>
+
+        <vedioCard />
+
       </div>
     </div>
   );

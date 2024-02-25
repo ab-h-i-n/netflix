@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
 
 
 
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>} />
         <Route path='/signup' element={<SignUpPage/>}/>
+        <Route path='/login' element={<LoginPage/>}/>
       </Routes>
       <Footer/>
     </BrowserRouter>
