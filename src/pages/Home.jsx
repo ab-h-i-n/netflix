@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import VedioCard from "../components/VedioCard";
+import VedioCard from "../components/vedioCard";
 
 function Home() {
 
