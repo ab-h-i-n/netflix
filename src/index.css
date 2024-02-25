@@ -2,12 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    background:linear-gradient(
-        rgba(0, 0, 0, 0.7), 
-        rgba(0, 0, 0, 0.7)
-      ),url('/public/assets/bgImg.jpg');
-    background-size:cover;
-    
+.netback{
+  background: linear-gradient(rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.7)), url('/public/assets/bgImg.jpg');
+  background-size: cover;
 
 }

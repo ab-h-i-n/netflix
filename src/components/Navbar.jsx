@@ -3,12 +3,15 @@ import Btn from "./Btn";
 import { Link } from "react-router-dom";
 
 function Navbar() {
+
+ 
+
   return (
-    <div className=" w-full flex justify-between px-10 pt-8 py-5 items-center bg-transparent md:px-20">
+    <div className="nav w-full flex justify-between px-10 py-8 items-center bg-transparent md:px-48">
       {/* logo  */}
 
       <Link to="/">
-        <img src="/assets/main_logo.svg" className="w-36" alt="logo" />
+        <img src="/assets/main_logo.svg" className="w-40" alt="logo" />
       </Link>
 
       {/* links  */}
@@ -18,7 +21,7 @@ function Navbar() {
           <Btn text="LogIn" link="/login"/>
         </li>
         <li>
-          <Btn text="Sign Up" link="/signup"/>
+          <Btn text="Sign Up" link="/signup" />
         </li>
       </ul>
     </div>

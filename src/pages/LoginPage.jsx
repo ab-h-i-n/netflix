@@ -1,14 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 function LoginPage() {
   return (
-    <section>
+    <section className='netback'>
+
+      <Navbar/>
 
         {/* other contents  */}
 
-      <div class="flex flex-col items-center px-6 py-20 mx-auto md:h-screen lg:py-0 ">
-        <div class="w-full rounded-lg border-zinc-800 shadow border md:mt-0 sm:max-w-md xl:p-0 bg-[#ffffff10] backdrop-blur-sm ">
+      <div class="flex flex-col items-center justify-center px-6 py-32 mx-auto md:h-full">
+        <div class="w-full rounded-lg border-zinc-800 shadow border md:mt-0 sm:max-w-md xl:p-0 bg-[#00000070] backdrop-blur-sm ">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
               Login to your account
