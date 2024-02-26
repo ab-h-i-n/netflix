@@ -6,15 +6,23 @@ import Footer from './components/Footer';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import Error from './pages/Error';
+import { useState } from 'react';
 
 
 
 function App() {
+
+  const [usrEmail,setUsrEmail] = useState('');
+
+  const handleValueChange = (newEmail) =>{
+    setUsrEmail(newEmail);
+  }
+
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>} />
-        <Route path='/signup' element={<SignUpPage/>}/>
+        <Route path="/" element={<Home handleValueChange={handleValueChange} />} />
+        <Route path='/signup' element={<SignUpPage usrEmail={usrEmail} />}/>
         <Route path='/login' element={<LoginPage/>}/>
 
         <Route path='*' element={<Error/>}/>

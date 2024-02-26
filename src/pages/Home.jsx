@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Home() {
+function Home({ handleValueChange }) {
+
+  const [newEmail, setNewEmail] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+
+    setNewEmail(e.target.value);
+    handleValueChange(newEmail);
+
+  }
+
+  const handleSubmit = (e) => {
+
+    e.preventDefault();
+
+    navigate('/signup');
+
+  }
+
 
   return (
     <>
@@ -29,19 +48,19 @@ function Home() {
 
           {/* inputs  */}
 
-          <form className="inputs flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5">
+          <form onSubmit={handleSubmit} className="inputs flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5">
 
             {/* email box  */}
 
-            <input className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700 w-80 md:w-96" type="email" placeholder="Email address" required />
+            <input onChange={handleChange} className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700 w-80 md:w-96" type="email" placeholder="Email address" required />
 
             {/* get started button  */}
 
-            <Link to={'/signup'} type="submit" className="bg-red-600 px-4 transition-all py-3.5 rounded text-xl hover:bg-red-700">
+            <button type="submit" className="bg-red-600 px-4 transition-all py-3.5 rounded text-xl hover:bg-red-700">
 
               <p className="font-medium">Get Started {`>`}</p>
 
-            </Link>
+            </button>
 
           </form>
 
