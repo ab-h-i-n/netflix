@@ -11,11 +11,12 @@ function Home({ handleValueChange }) {
   const handleChange = (e) => {
 
     setNewEmail(e.target.value);
-    handleValueChange(newEmail);
 
   }
 
   const handleSubmit = (e) => {
+
+    handleValueChange(newEmail);
 
     e.preventDefault();
 
