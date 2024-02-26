@@ -1,17 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import { supabase } from '../SuperBase';
 
 
+function SignUpPage({ usrEmail }) {
 
-function SignUpPage({usrEmail}) {
+  const [form, setForm] = useState({
+    "email": '',
+    "password": ''
+  });
+
+  const handlePassChange = (e) => {
+
+    setForm({
+      "email": usrEmail,
+      "password": e.target.value
+    });
+
+  }
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+
+    //superbase 
+
+
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+    })
+
+    
+  }
+
 
   return (
     <section className="netback">
 
-      <Navbar links="true"/>
+      <Navbar links="true" />
 
-        {/* other contents  */}
+      {/* other contents  */}
 
       <div className="flex flex-col items-center justify-center px-6 py-32 mx-auto md:h-full">
         <div className="w-full rounded-lg border-zinc-800 shadow border md:mt-0 sm:max-w-md xl:p-0 bg-[#00000070] backdrop-blur-sm ">
@@ -19,7 +50,7 @@ function SignUpPage({usrEmail}) {
             <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
               Create account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
                   for="email"
@@ -39,6 +70,7 @@ function SignUpPage({usrEmail}) {
               </div>
               <div>
                 <label
+                  onChange={handlePassChange}
                   for="password"
                   className="block mb-2 text-sm font-medium  text-white"
                 >

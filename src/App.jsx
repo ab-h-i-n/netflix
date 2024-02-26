@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Routes,Route  } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './pages/Home';
 import Footer from './components/Footer';
@@ -12,22 +12,24 @@ import { useState } from 'react';
 
 function App() {
 
-  const [usrEmail,setUsrEmail] = useState('');
+  const [usrEmail, setUsrEmail] = useState('');
 
-  const handleValueChange = (newEmail) =>{
+  const handleValueChange = (newEmail) => {
     setUsrEmail(newEmail);
   }
+
+
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home handleValueChange={handleValueChange} />} />
-        <Route path='/signup' element={<SignUpPage usrEmail={usrEmail} />}/>
-        <Route path='/login' element={<LoginPage/>}/>
+        <Route path='/signup' element={<SignUpPage usrEmail={usrEmail} />} />
+        <Route path='/login' element={<LoginPage />} />
 
-        <Route path='*' element={<Error/>}/>
+        <Route path='*' element={<Error />} />
       </Routes>
-      <Footer/>
+      <Footer />
     </BrowserRouter>
   );
 }
