@@ -14,7 +14,7 @@ function Footer() {
 
       {/* links  */}
 
-      <ul className='grid grid-cols-2 gap-x-10 gap-y-3 text-zinc-300 md:grid-cols-7'>
+      <ul className='grid grid-cols-2 gap-x-10 gap-y-3 text-zinc-300 md:flex'>
         {/* eslint-disable-next-line */}
         <li><p className='hover:underline underline-offset-4'>About</p></li>
         <li><p className='hover:underline underline-offset-4'>Premium</p></li>

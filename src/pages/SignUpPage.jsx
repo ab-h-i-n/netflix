@@ -8,7 +8,7 @@ function SignUpPage() {
   return (
     <section className="netback">
 
-      <Navbar/>
+      <Navbar links="true"/>
 
         {/* other contents  */}
 

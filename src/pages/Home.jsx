@@ -1,45 +1,49 @@
-import React, { useState } from "react";
+import React from "react";
 import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
-import Tv from "../components/Tv";
+import { Link } from "react-router-dom";
 
 function Home() {
-
-  const [active, setActive] = useState(false);
-  const [netflixVer, setNetflixVer] = useState(0);
 
   return (
     <>
       <div className="netback ">
 
-        <Navbar />
+        <Navbar links="true" />
 
         {/* Home contents   */}
 
-        <div className="py-20 h-full text-white ">
-          {/* sub heaing 
-
-            <p className={`font-light text-lg md:text-3xl flex justify-center gap-x-4`}>
-              Welcome Back to <p onClick={()=>{
-              setActive(!active)
-              setNetflixVer(netflixVer + 1)
-            }} className={` text-${ active ? 'red-500'  : 'white' } select-none cursor-pointer`}>Netflix {netflixVer}.0</p>
-   
-            </p> */}
+        <div className="py-44 h-full text-white grid place-items-center gap-y-5">
 
           {/* heading  */}
 
-          <h1 className="my-3 font-black text-center text-4xl md:text-6xl">
-            Unlimited movies, TV shows and more
-          </h1>
+          <h1 className="my-3 font-black text-xl md:text-5xl">Unlimited movies, TV shows and more</h1>
 
           {/* sub heading  */}
 
-          <p className="font-light text-lg md:text-3xl flex justify-center gap-x-4">Watch anywhere. Cancel anytime.</p>
+          <p className="text-lg md:text-2xl">Watch anywhere. Cancel anytime.</p>
 
-          {/* vedio container  */}
+          {/* sub sub heading  */}
 
-          <Tv src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"/>
+          <p className="text-lg md:text-xl">Ready to watch? Enter your email to create or restart your membership.</p>
+
+          {/* inputs  */}
+
+          <form className="inputs flex gap-x-5 items-center">
+
+            {/* email box  */}
+
+            <input className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700" size={30} type="email" placeholder="Email address" required />
+
+            {/* get started button  */}
+
+            <Link to={'/signup'} type="submit"  className="bg-red-600 px-4 transition-all py-3.5 rounded text-xl hover:bg-red-700">
+
+                <p className="font-medium">Get Started {`>`}</p>
+
+            </Link>
+
+          </form>
 
         </div>
       </div>
