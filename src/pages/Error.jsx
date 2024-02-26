@@ -10,19 +10,19 @@ const Error = () => {
 
             {/* page contents  */}
 
-            <div className="bg-[url(https://source.unsplash.com/1600x900/?space)] w-full h-full bg-no-repeat bg-cover ">
+            <div className="bg-[url(https://source.unsplash.com/360x640/?space)] md:bg-[url(https://source.unsplash.com/640x360/?space)] w-full h-full bg-no-repeat bg-cover ">
 
                 {/* overlay  and contents */}
 
-                <div className="backdrop-brightness-50 px-96  w-full h-full  text-white flex flex-col items-center justify-center gap-y-10">
+                <div className="backdrop-brightness-50 px-16 md:px-96  backdrop-blur-[2px] w-full h-full  text-white flex flex-col items-center justify-center gap-y-5 md:gap-y-10">
 
                     {/* heading */}
 
-                    <h1 className='text-8xl font-black'>Lost your way ?</h1>
+                    <h1 className='text-4xl md:text-8xl font-black'>Lost your way ?</h1>
 
                     {/* sub heading  */}
 
-                    <p className='text-4xl font-light text-center'>Sorry, we can't find that page. You'll find lots to explore on the home page.</p>
+                    <p className='text-xl md:text-4xl font-light text-center'>Sorry, we can't find that page. You'll find lots to explore on the home page.</p>
 
                     {/* nerflix home button  */}
 
@@ -30,15 +30,15 @@ const Error = () => {
 
                     {/* error code  */}
 
-                    <div className="flex items-center gap-x-5">
+                    <div className="flex items-center gap-x-5 whitespace-nowrap">
 
                         {/* line  */}
 
-                        <div className="h-20 bg-red-600 w-[3px]"></div>
+                        <div className="h-14 md:h-20 bg-red-600 w-[3px]"></div>
 
-                        <p className='text-white font-extralight text-4xl' >Error Code</p>
+                        <p className='text-white font-extralight text-2xl md:text-4xl' >Error Code</p>
 
-                        <p className='text-white font-bold text-4xl' >NSES-404</p>
+                        <p className='text-white font-bold text-2xl md:text-4xl' >NSES-404</p>
 
                     </div>
 
