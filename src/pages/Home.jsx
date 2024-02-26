@@ -33,7 +33,7 @@ function Home() {
 
             {/* email box  */}
 
-            <input className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700" size={30} type="email" placeholder="Email address" required />
+            <input className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700 w-96"  type="email" placeholder="Email address" required />
 
             {/* get started button  */}
 
