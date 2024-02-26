@@ -36,7 +36,7 @@ const Tv = (props) => {
 
           {/* tv remote  */}
 
-          <img src="/assets/tv-remote.png" className='absolute w-32 drop-shadow-xl shadow-black translate-x-[180px] translate-y-[-65px] brightness-[80%]' />
+          <img src="/assets/tv-remote.png" className='absolute w-28 md:w-32 drop-shadow-xl shadow-black translate-x-[120px] translate-y-[-40px]  md:translate-x-[180px] md:translate-y-[-65px] brightness-[80%]' />
 
         </div>
 

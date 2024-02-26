@@ -73,7 +73,7 @@ function SignUpPage() {
                     id="terms"
                     aria-describedby="terms"
                     type="checkbox"
-                    class="w-4 h-4 border rounded  focus:ring-3  bg-zinc-900 border-red-500  ring-offset-gray-800"
+                    class="w-4 h-4 border rounded  focus:ring-3 accent-red-600  bg-zinc-900 border-red-500  ring-offset-gray-800"
                     required=""
                   />
                 </div>
