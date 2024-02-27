@@ -14,7 +14,6 @@ import { useState } from 'react';
 function App() {
 
   const [usrEmail, setUsrEmail] = useState('');
-  const [usrData, setUsrData] = useState();
   
 
   const handleValueChange = (newEmail) => {
