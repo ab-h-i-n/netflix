@@ -1,8 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Btn from "./Btn";
 import { Link } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 function Navbar(props) {
+
+  const [usrData, setUsrData] = useState();
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    try {
+
+      const userData = secureLocalStorage.getItem('user');
+      setUsrData(userData);
+
+      if (userData) {
+        setLoggedIn(true);
+      }
+
+    } catch (error) {
+
+      console.error("Error retrieving user data:", error);
+
+    }
+
+  }, []);
+
+  const handleSignOut = () => {
+
+    if (isLoggedIn) {
+      secureLocalStorage.clear();
+      window.location.reload();
+    }
+
+  }
+
   return (
     <div className={`${props.links ? '' : 'bg-zinc-900'} nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
 
@@ -24,8 +58,8 @@ function Navbar(props) {
               <option value="English">English</option>
             </select>
           </li>
-          <li>
-            <Btn text="Sign In" link="/login" />
+          <li onClick={handleSignOut}>
+            <Btn text={`${isLoggedIn ? 'Sign Out' : 'Sign In'}`} link={`${isLoggedIn ? '' : '/login'}`} />
           </li>
         </ul>
       )}

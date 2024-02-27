@@ -2,11 +2,18 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { supabase } from '../SuperBase';
+import secureLocalStorage from 'react-secure-storage';
 
 
 function LoginPage({ usrEmail }) {
 
   const navigate = useNavigate();
+
+  const storeUsrData = (data) => {
+
+    secureLocalStorage.setItem("user",data)
+
+  }
 
   const [form, setForm] = useState({
 
@@ -49,6 +56,8 @@ function LoginPage({ usrEmail }) {
         throw (error);
 
       } else {
+
+        storeUsrData(data);
 
         console.log(data);
 

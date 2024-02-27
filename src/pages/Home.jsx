@@ -1,12 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import secureLocalStorage from "react-secure-storage";
 
 function Home({ handleValueChange }) {
 
   const [newEmail, setNewEmail] = useState('');
   const navigate = useNavigate();
+  const [usrData, setUsrData] = useState();
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+
+    try {
+
+      const userData = secureLocalStorage.getItem('user');
+      setUsrData(userData);
+
+      if (userData) {
+        setLoggedIn(true);
+      }
+
+    } catch (error) {
+
+      console.error("Error retrieving user data:", error);
+
+    }
+    
+  }, []);
 
   const handleChange = (e) => {
 
@@ -43,13 +66,17 @@ function Home({ handleValueChange }) {
 
           <p className="text-lg md:text-2xl">Watch anywhere. Cancel anytime.</p>
 
+          {/* welcomming user  */}
+
+          <p className={`${isLoggedIn ? '' : 'hidden'} capitalize text-2xl flex gap-x-2 items-center`}>Welcome <span className="text-red-600 text-3xl">{isLoggedIn ? usrData.user.user_metadata.full_name : ''}</span></p>
+
           {/* sub sub heading  */}
 
-          <p className="text-lg text-center px-10 md:px-0 md:text-xl">Ready to watch? Enter your email to create or restart your membership.</p>
+          <p className={`${isLoggedIn ? 'hidden' : ''} text-lg text-center px-10 md:px-0 md:text-xl`}>Ready to watch? Enter your email to create or restart your membership.</p>
 
           {/* inputs  */}
 
-          <form onSubmit={handleSubmit} className="inputs flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5">
+          <form onSubmit={handleSubmit} className={` ${isLoggedIn ? 'hidden' : ''} flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5`}>
 
             {/* email box  */}
 
