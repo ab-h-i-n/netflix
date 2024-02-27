@@ -14,15 +14,15 @@ const Error = () => {
 
                 {/* overlay  and contents */}
 
-                <div className="backdrop-brightness-50 px-16 md:px-96  backdrop-blur-[2px] w-full h-full  text-white flex flex-col items-center justify-center gap-y-5 md:gap-y-10">
+                <div className="backdrop-brightness-50 px-16 md:px-40 xl:px-92  backdrop-blur-[2px] w-full h-full  text-white flex flex-col items-center justify-center gap-y-5 md:gap-y-10">
 
                     {/* heading */}
 
-                    <h1 className='text-4xl md:text-8xl font-black'>Lost your way ?</h1>
+                    <h1 className='text-4xl md:text-5xl xl:text-8xl font-black'>Lost your way ?</h1>
 
                     {/* sub heading  */}
 
-                    <p className='text-xl md:text-4xl font-light text-center'>Sorry, we can't find that page. You'll find lots to explore on the home page.</p>
+                    <p className='text-xl md:text-2xl xl:text-4xl xl:px-80 font-light text-center'>Sorry, we can't find that page. You'll find lots to explore on the home page.</p>
 
                     {/* nerflix home button  */}
 
