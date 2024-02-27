@@ -24,8 +24,8 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home handleValueChange={handleValueChange} />} />
-        <Route path='/signup' element={<SignUpPage usrEmail={usrEmail} />} />
-        <Route path='/login' element={<LoginPage />} />
+        <Route path='/signup' element={<SignUpPage usrEmail={usrEmail} handleValueChange={handleValueChange} />} />
+        <Route path='/login' element={<LoginPage usrEmail={usrEmail} />} />
 
         <Route path='*' element={<Error />} />
       </Routes>

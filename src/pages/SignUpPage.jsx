@@ -1,22 +1,66 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { supabase } from '../SuperBase';
 
 
-function SignUpPage({ usrEmail }) {
+function SignUpPage({ usrEmail , handleValueChange}) {
 
-  const [form, setForm] = useState({
-    "email": '',
-    "password": ''
-  });
+  const navigate = useNavigate()
+
+  const [form, setForm] = useState(
+    {
+      email: usrEmail,
+      password: "",
+      options: {
+        data: {
+          full_name: "",
+        }
+      }
+
+    });
+
+  const handleMailChange = (e) => {
+
+    handleValueChange(e.target.value);
+
+    setForm({
+      email: e.target.value,
+      password: form.password,
+      options: {
+        data: {
+          full_name: form.options.data.full_name
+        }
+      }
+    })
+
+  }
 
   const handlePassChange = (e) => {
 
     setForm({
-      "email": usrEmail,
-      "password": e.target.value
-    });
+      email: form.email,
+      password: e.target.value,
+      options: {
+        data: {
+          full_name: form.options.data.full_name
+        }
+      }
+    })
+
+  }
+
+  const handleNameChange = (e) => {
+
+    setForm({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: {
+          full_name: e.target.value,
+        }
+      }
+    })
 
   }
 
@@ -24,16 +68,50 @@ function SignUpPage({ usrEmail }) {
 
     e.preventDefault();
 
+    console.log(form);
+
 
     //superbase 
 
 
-    const { data, error } = await supabase.auth.signUp({
-      email: form.email,
-      password: form.password,
-    })
+    try {
 
-    
+
+      const { data, error } = await supabase.auth.signUp(
+        {
+          email: form.email,
+          password: form.password,
+          options: {
+            data: {
+              full_name: form.options.data.full_name,
+            }
+          }
+        }
+      )
+
+      if (error) {
+
+        throw (error);
+
+      } else {
+
+        console.log(data);
+
+        alert("Signed Up succefully!");
+
+        navigate('/login')
+
+
+      }
+
+
+    } catch (error) {
+
+      alert(error);
+
+    }
+
+
   }
 
 
@@ -53,52 +131,54 @@ function SignUpPage({ usrEmail }) {
             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
-                  for="email"
+                  htmlFor="name"
+                  className="block mb-2 text-sm font-medium  text-white"
+                >
+                  Your Name
+                </label>
+                <input
+                  onChange={handleNameChange}
+                  type="text"
+                  name="name"
+                  id="name"
+                  className=" border  sm:text-sm rounded-lg   block w-full p-2.5 bg-zinc-900 border-red-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter Name"
+                  required
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="email"
                   className="block mb-2 text-sm font-medium  text-white"
                 >
                   Your email
                 </label>
                 <input
                   defaultValue={usrEmail}
+                  onChange={handleMailChange}
                   type="email"
                   name="email"
                   id="email"
                   className=" border  sm:text-sm rounded-lg   block w-full p-2.5 bg-zinc-900 border-red-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                   placeholder="name@company.com"
-                  required=""
+                  required
                 />
               </div>
               <div>
                 <label
-                  onChange={handlePassChange}
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium  text-white"
                 >
                   Password
                 </label>
                 <input
+                  onChange={handlePassChange}
                   type="password"
                   name="password"
                   id="password"
                   placeholder="••••••••"
                   className=" border  sm:text-sm rounded-lg   block w-full p-2.5 bg-zinc-900 border-red-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  required=""
-                />
-              </div>
-              <div>
-                <label
-                  for="confirm-password"
-                  className="block mb-2 text-sm font-medium  text-white"
-                >
-                  Confirm password
-                </label>
-                <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
-                  placeholder="••••••••"
-                  className=" border  sm:text-sm rounded-lg   block w-full p-2.5 bg-zinc-900 border-red-500 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  required=""
+                  required
                 />
               </div>
               <div className="flex items-start">
@@ -108,11 +188,11 @@ function SignUpPage({ usrEmail }) {
                     aria-describedby="terms"
                     type="checkbox"
                     className="w-4 h-4 border rounded  focus:ring-3 accent-red-600  bg-zinc-900 border-red-500  ring-offset-gray-800"
-                    required=""
+                    required
                   />
                 </div>
                 <div className="ml-3 text-sm">
-                  <label for="terms" className="font-light text-gray-400 ">
+                  <label htmlFor="terms" className="font-light text-gray-400 ">
                     I accept the{" "}
                     <a
                       className="font-medium  hover:underline text-red-500"

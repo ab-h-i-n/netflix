@@ -20,7 +20,7 @@ const VedioCard = () => {
             {
                 movieList.slice(0,6).map((movie, index) => (
 
-                    <div key={movie.id} id={movie.id} className={`gap-y-5 border-t-8 border-zinc-700 bg-zinc-950 px-20 py-10 text-white grid grid-cols-1 md:grid-cols-2 place-items-center `}>
+                    <div key={movie.id} id={movie.id} className={`gap-5 border-t-8 border-zinc-700 bg-zinc-950 px-20 py-10 text-white grid grid-cols-1 md:grid-cols-2 place-items-center `}>
 
                         <Tv src={movie.video_url} />
 
