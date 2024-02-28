@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import { supabase } from '../SuperBase';
+import { supabase } from '../SupaBase';
 import secureLocalStorage from 'react-secure-storage';
 
 
