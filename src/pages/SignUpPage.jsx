@@ -1,119 +1,33 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import { supabase } from '../SupaBase';
 
 
-function SignUpPage({ usrEmail , handleValueChange}) {
 
-  const navigate = useNavigate()
+function SignUpPage({ UsrForm, handleSignUp }) {
 
-  const [form, setForm] = useState(
-    {
-      email: usrEmail,
-      password: "",
-      options: {
-        data: {
-          full_name: "",
-        }
+  const navigate = useNavigate();
+
+  const { form, handleMailChange, handlePassChange, handleNameChange } = UsrForm;
+
+  console.log(form);
+
+  const handleSignUpSubmit = async (e) => {
+
+    e.preventDefault();
+
+    handleSignUp().then(success => {
+
+      if (success) {
+
+        navigate('/');
+        window.location.reload();
+
       }
 
     });
 
-  const handleMailChange = (e) => {
-
-    handleValueChange(e.target.value);
-
-    setForm({
-      email: e.target.value,
-      password: form.password,
-      options: {
-        data: {
-          full_name: form.options.data.full_name
-        }
-      }
-    })
-
   }
-
-  const handlePassChange = (e) => {
-
-    setForm({
-      email: form.email,
-      password: e.target.value,
-      options: {
-        data: {
-          full_name: form.options.data.full_name
-        }
-      }
-    })
-
-  }
-
-  const handleNameChange = (e) => {
-
-    setForm({
-      email: form.email,
-      password: form.password,
-      options: {
-        data: {
-          full_name: e.target.value,
-        }
-      }
-    })
-
-  }
-
-  const handleSubmit = async (e) => {
-
-    e.preventDefault();
-
-    console.log(form);
-
-
-    //superbase 
-
-
-    try {
-
-
-      const { data, error } = await supabase.auth.signUp(
-        {
-          email: form.email,
-          password: form.password,
-          options: {
-            data: {
-              full_name: form.options.data.full_name,
-            }
-          }
-        }
-      )
-
-      if (error) {
-
-        throw (error);
-
-      } else {
-
-        console.log(data);
-
-        alert("Signed Up succefully!");
-
-        navigate('/login')
-
-
-      }
-
-
-    } catch (error) {
-
-      alert(error);
-
-    }
-
-
-  }
-
 
   return (
     <section className="netback">
@@ -128,7 +42,7 @@ function SignUpPage({ usrEmail , handleValueChange}) {
             <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
               Create account
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleSignUpSubmit} className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
                   htmlFor="name"
@@ -154,7 +68,7 @@ function SignUpPage({ usrEmail , handleValueChange}) {
                   Your email
                 </label>
                 <input
-                  defaultValue={usrEmail}
+                  defaultValue={form.email}
                   onChange={handleMailChange}
                   type="email"
                   name="email"
@@ -194,12 +108,11 @@ function SignUpPage({ usrEmail , handleValueChange}) {
                 <div className="ml-3 text-sm">
                   <label htmlFor="terms" className="font-light text-gray-400 ">
                     I accept the{" "}
-                    <a
+                    <span
                       className="font-medium  hover:underline text-red-500"
-                      href="#"
                     >
                       Terms and Conditions
-                    </a>
+                    </span>
                   </label>
                 </div>
               </div>

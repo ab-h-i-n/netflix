@@ -1,77 +1,34 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
-import { supabase } from '../SupaBase';
-import secureLocalStorage from 'react-secure-storage';
 
 
-function LoginPage({ usrEmail }) {
+
+function LoginPage({UsrForm,handleLogIn}) {
 
   const navigate = useNavigate();
 
-  const storeUsrData = (data) => {
+  // form and its functions
 
-    secureLocalStorage.setItem("user",data)
+  const {form,handleMailChange,handlePassChange} = UsrForm;
 
-  }
 
-  const [form, setForm] = useState({
+  // on login btn click 
 
-    email: usrEmail,
-    password: '',
-
-  });
-
-  const handleMailChange = (e) => {
-
-    setForm({
-      email: e.target.value,
-      password: form.password
-    })
-
-  }
-
-  const handlePassChange = (e) => {
-
-    setForm({
-      email: form.email,
-      password: e.target.value
-    })
-
-  }
-
-  const handleSubmit = async (e) => {
+  const handleLogInSubmit = async(e) => {
 
     e.preventDefault();
 
-    try {
+    handleLogIn().then(success => {
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: form.email,
-        password: form.password,
-      })
-
-      if (error) {
-
-        throw (error);
-
-      } else {
-
-        storeUsrData(data);
-
-        console.log(data);
-
-        alert('User Signed Succefully!');
+      if(success){
 
         navigate('/');
+        window.location.reload();
 
       }
 
-    } catch (error) {
-
-      alert(error);
-
-    }
+    });
 
   }
 
@@ -88,7 +45,7 @@ function LoginPage({ usrEmail }) {
             <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
               Login to your account
             </h1>
-            <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
+            <form onSubmit={handleLogInSubmit} className="space-y-4 md:space-y-6" action="#">
               <div>
                 <label
                   htmlFor="email"
@@ -97,7 +54,7 @@ function LoginPage({ usrEmail }) {
                   Your email
                 </label>
                 <input
-                  defaultValue={usrEmail}
+                  defaultValue={form.email}
                   onChange={handleMailChange}
                   type="email"
                   name="email"

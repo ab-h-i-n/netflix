@@ -3,42 +3,17 @@ import Btn from "./Btn";
 import { Link } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 
-function Navbar(props) {
-
-  const [usrData, setUsrData] = useState();
-
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-
-    try {
-
-      const userData = secureLocalStorage.getItem('user');
-      setUsrData(userData);
-
-      if (userData) {
-        setLoggedIn(true);
-      }
-
-    } catch (error) {
-
-      console.error("Error retrieving user data:", error);
-
-    }
-
-  }, []);
+function Navbar({links,usrData}) {
 
   const handleSignOut = () => {
 
-    if (isLoggedIn) {
-      secureLocalStorage.clear();
-      window.location.reload();
-    }
+    secureLocalStorage.clear();
+    window.location.reload();
 
   }
 
   return (
-    <div className={`${props.links ? '' : 'bg-zinc-900'} nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
+    <div className={`${links ? '' : 'bg-zinc-900'} nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
 
       {/* logo */}
       <Link to="/">
@@ -46,7 +21,7 @@ function Navbar(props) {
       </Link>
 
       {/* links */}
-      {props.links && (
+      {links && (
         <ul className="flex gap-x-4 items-center">
           <li className="flex items-center relative">
             <img src="/assets/language.svg" className="w-5 absolute left-2" />
@@ -59,7 +34,7 @@ function Navbar(props) {
             </select>
           </li>
           <li onClick={handleSignOut}>
-            <Btn text={`${isLoggedIn ? 'Sign Out' : 'Sign In'}`} link={`${isLoggedIn ? '' : '/login'}`} />
+            <Btn text={`${usrData ? 'Sign Out' : 'Sign In'}`} link={`${usrData ? '' : '/login'}`} />
           </li>
         </ul>
       )}
