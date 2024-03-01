@@ -3,7 +3,7 @@ import Btn from "./Btn";
 import { Link } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
 
-function Navbar({links,usrData}) {
+function Navbar({ links, usrData }) {
 
   const handleSignOut = () => {
 
@@ -33,9 +33,17 @@ function Navbar({links,usrData}) {
               <option value="English">English</option>
             </select>
           </li>
-          <li onClick={handleSignOut}>
-            <Btn text={`${usrData ? 'Sign Out' : 'Sign In'}`} link={`${usrData ? '' : '/login'}`} />
-          </li>
+
+          {usrData ?
+          
+            <li onClick={handleSignOut}>
+              <Btn text='Sign Out' link='' />
+            </li> :
+            <li>
+              <Btn text='Sign In' link='/login' />
+            </li>
+          }
+
         </ul>
       )}
     </div>
