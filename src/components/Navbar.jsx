@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Btn from "./Btn";
 import { Link } from "react-router-dom";
 import secureLocalStorage from "react-secure-storage";
@@ -24,7 +24,7 @@ function Navbar({ links, usrData }) {
       {links && (
         <ul className="flex gap-x-4 items-center">
           <li className="flex items-center relative">
-            <img src="/assets/language.svg" className="w-5 absolute left-2" />
+            <img src="/assets/language.svg" className="w-5 absolute left-2" alt="lang"/>
             <select
               name="lang"
               id="lang"
@@ -35,7 +35,7 @@ function Navbar({ links, usrData }) {
           </li>
 
           {usrData ?
-          
+
             <li onClick={handleSignOut}>
               <Btn text='Sign Out' link='' />
             </li> :

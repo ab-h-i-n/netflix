@@ -8,8 +8,8 @@ import LoginPage from './pages/LoginPage';
 import Error from './pages/Error';
 import { useEffect, useState } from 'react';
 import secureLocalStorage from 'react-secure-storage';
-import useUserForm from './Form';
-import SignupLogin from './SignupLogin';
+import useUserForm from './UsrForm';
+import SignupLogin from './SignupLoginFunc';
 
 function App() {
 
