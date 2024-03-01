@@ -1,14 +1,14 @@
 import React from "react";
 import Btn from "./Btn";
 import { Link } from "react-router-dom";
-import secureLocalStorage from "react-secure-storage";
+import { supabase } from "../SupaBase";
 
 function Navbar({ links, usrData }) {
 
-  const handleSignOut = () => {
+  const handleSignOut = async() => {
 
-    secureLocalStorage.clear();
-    window.location.reload();
+    await supabase.auth.signOut();
+  
 
   }
 

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 
 
-
 function LoginPage({UsrForm,handleLogIn}) {
 
   const navigate = useNavigate();
@@ -24,7 +23,6 @@ function LoginPage({UsrForm,handleLogIn}) {
       if(success){
 
         navigate('/');
-        window.location.reload();
 
       }
 

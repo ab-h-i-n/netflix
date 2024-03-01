@@ -7,9 +7,10 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import Error from './pages/Error';
 import { useEffect, useState } from 'react';
-import secureLocalStorage from 'react-secure-storage';
 import useUserForm from './UsrForm';
 import SignupLogin from './SignupLoginFunc';
+import { supabase } from "./SupaBase";
+import ProtectedRoute from './ProtectedRoute';
 
 function App() {
 
@@ -25,30 +26,63 @@ function App() {
 
   const SignUpLogInFuctions = SignupLogin(UsrForm.form);
 
+
   useEffect(() => {
 
     try {
 
-      const userData = secureLocalStorage.getItem('user');
+      const getUser = async () => {
 
-      if(userData){
-        setUsrData(userData);
-      }
+        const { data: { session } } = await supabase.auth.getSession();
 
+        setUsrData(session?.user);
+
+        supabase.auth.onAuthStateChange((event, session) => {
+
+          switch (event) {
+
+            case "SIGNED_IN":
+
+              setUsrData(session?.user);
+              break;
+
+            case "SIGNED_OUT":
+
+              setUsrData(null);
+              break;
+
+            default:
+              break;
+          }
+
+        });
+      };
+
+      getUser();
     } catch (error) {
-
       console.error("Error retrieving user data:", error);
-
     }
-
   }, []);
+
 
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} />} />
-        <Route path='/signup' element={<SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />} />
-        <Route path='/login' element={<LoginPage UsrForm={UsrForm} handleLogIn={SignUpLogInFuctions.handleLogIn} />} />
+
+        <Route path='/login' element={
+
+          <ProtectedRoute usrData={usrData}>
+            <LoginPage UsrForm={UsrForm} handleLogIn={SignUpLogInFuctions.handleLogIn} />
+          </ProtectedRoute>
+        } />
+
+        <Route path='/signup' element={
+          
+          <ProtectedRoute usrData={usrData}>
+            <SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />
+          </ProtectedRoute>
+        } />
 
         <Route path='*' element={<Error />} />
       </Routes>

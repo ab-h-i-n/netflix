@@ -3,9 +3,9 @@ import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 
-function Home({usrData,UsrForm}) {
+function Home({ usrData, UsrForm }) {
 
-  const {handleMailChange} = UsrForm;
+  const { handleMailChange } = UsrForm;
 
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Home({usrData,UsrForm}) {
     <>
       <div className="netback ">
 
-        <Navbar links="true" usrData={usrData}/>
+        <Navbar links="true" usrData={usrData} />
 
         {/* Home contents   */}
 
@@ -37,7 +37,7 @@ function Home({usrData,UsrForm}) {
 
           {/* welcomming user  */}
 
-          <p className={`${usrData ? '' : 'hidden'} capitalize text-2xl flex gap-x-2 items-center`}>Welcome <span className="text-red-600 text-3xl">{usrData ? usrData.user.user_metadata.full_name : ''}</span></p>
+          <p className={`${usrData ? '' : 'hidden'} capitalize text-2xl flex gap-x-2 items-center`}>Welcome <span className="text-red-600 text-3xl">{usrData ? usrData.user_metadata.full_name : ''}</span></p>
 
           {/* sub sub heading  */}
 
@@ -49,7 +49,7 @@ function Home({usrData,UsrForm}) {
 
             {/* email box  */}
 
-            <input onChange={handleMailChange}  className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700 w-80 md:w-96" type="email" placeholder="Email address" required />
+            <input onChange={handleMailChange} className="bg-[#222222b8] py-4 px-3 rounded border border-zinc-700 w-80 md:w-96" type="email" placeholder="Email address" required />
 
             {/* get started button  */}
 

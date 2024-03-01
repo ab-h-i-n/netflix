@@ -1,14 +1,12 @@
 import { supabase } from "./SupaBase";
-import secureLocalStorage from "react-secure-storage";
 
 const SignupLogin = (form) => {
 
   // signup
   const handleSignUp = async () => {
     try {
-      console.log(form);
 
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
@@ -17,15 +15,12 @@ const SignupLogin = (form) => {
           },
         },
       });
+      
 
       if (error) {
         alert(error);
         return false;
       }
-
-      secureLocalStorage.setItem("user", data);
-
-      console.log(data);
 
       alert("Signed Up successfully!");
       return true;
@@ -39,9 +34,8 @@ const SignupLogin = (form) => {
   // Login
   const handleLogIn = async () => {
     try {
-      console.log(form);
 
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });
@@ -50,10 +44,6 @@ const SignupLogin = (form) => {
         alert(error);
         return false;
       }
-
-      secureLocalStorage.setItem("user", data);
-
-      console.log(data);
 
       alert('User Signed Up successfully!');
       return true;
