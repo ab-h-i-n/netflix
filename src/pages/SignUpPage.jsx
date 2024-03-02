@@ -14,7 +14,7 @@ function SignUpPage({ UsrForm, handleSignUp }) {
 
     e.preventDefault();
 
-    handleSignUp().then(success => navigate('/'));
+    handleSignUp().then(() => navigate('/'));
 
   }
 
