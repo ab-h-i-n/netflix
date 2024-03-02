@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Tv from './Tv'
 
-const VedioCard = () => {
+const VedioCard = ({setLoading}) => {
 
     const [movieList, setMoiveList] = useState([]);
 
@@ -9,6 +9,7 @@ const VedioCard = () => {
         fetch('https://6587d02290fa4d3dabf92599.mockapi.io/movielist')
             .then(response => response.json())
             .then(json => setMoiveList(json))
+            .then(setLoading(false))
             .catch(error => console.error(error));
     }, []);
 

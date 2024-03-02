@@ -36,7 +36,7 @@ function App() {
       setLoading(true);
 
       try {
-        const { data, error } = await supabase.auth.getUser().then(()=>setLoading(false));
+        const { data, error } = await supabase.auth.getUser();
   
         if (error) {
           console.error("Error retrieving user data");
@@ -84,7 +84,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} isLoading={isLoading}/>} />
+        <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} isLoading={isLoading} setLoading={setLoading}/>} />
 
         <Route path='/login' element={
 

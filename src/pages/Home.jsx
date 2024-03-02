@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
 
-function Home({ usrData, UsrForm,isLoading }) {
+function Home({ usrData, UsrForm,isLoading,setLoading }) {
 
   const { handleMailChange } = UsrForm;
 
@@ -67,7 +67,7 @@ function Home({ usrData, UsrForm,isLoading }) {
         </div>
       </div>
 
-      {usrData? <VedioCard /> : <></>}
+      {usrData? <VedioCard setLoading={setLoading} /> : <></>}
     </>
   );
 }
