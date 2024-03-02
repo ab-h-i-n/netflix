@@ -31,9 +31,9 @@ function App() {
 
   useEffect(() => {
 
+    setLoading(true);
+
     const getUser = async () => {
-      
-      setLoading(true);
 
       try {
         const { data, error } = await supabase.auth.getUser();
@@ -50,7 +50,7 @@ function App() {
         }
       };
   
-    getUser();
+    getUser().then(()=>setLoading(false));
   
 
     const {data} = supabase.auth.onAuthStateChange(
