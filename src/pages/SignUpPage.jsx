@@ -8,8 +8,6 @@ function SignUpPage({ UsrForm, handleSignUp }) {
 
   const { form, handleMailChange, handlePassChange, handleNameChange } = UsrForm;
 
-  console.log(form);
-
   const handleSignUpSubmit = async (e) => {
 
     e.preventDefault();

@@ -29,40 +29,51 @@ function App() {
 
   useEffect(() => {
 
-    try {
-
-      const getUser = async () => {
-
-        const { data } = await supabase.auth.getUser();
+    const getUser = async () => {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+  
+        if (error) {
+          console.error("Error retrieving user data");
+          return;
+        }
 
         setUsrData(data?.user);
 
-        supabase.auth.onAuthStateChange((event, data) => {
-
-          switch (event) {
-
-            case "SIGNED_IN":
-
-              setUsrData(data?.user);
-              break;
-
-            case "SIGNED_OUT":
-
-              setUsrData(null);
-              break;
-
-            default:
-              break;
-          }
-
-        });
+      } catch (error) {
+          console.error("Error retrieving user data");
+        }
       };
+  
+    getUser();
+  
 
-      getUser();
-    } catch (error) {
-      console.error("Error retrieving user data:", error);
-    }
+    const {data} = supabase.auth.onAuthStateChange(
+
+      async (event, session) => {
+
+        switch (event) {
+
+          case "SIGNED_IN":
+            getUser();
+            break;
+
+          case "SIGNED_OUT":
+            setUsrData(null); 
+            break;
+
+          default:
+        }
+
+        return () => data.subscription.unsubscribe();
+
+      }
+    );
+  
+
   }, []);
+  
+
 
 
   return (
@@ -78,7 +89,7 @@ function App() {
         } />
 
         <Route path='/signup' element={
-          
+
           <ProtectedRoute usrData={usrData}>
             <SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />
           </ProtectedRoute>
