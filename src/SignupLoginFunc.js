@@ -11,7 +11,7 @@ const SignupLogin = (form) => {
         password: form.password,
         options: {
           data: {
-            full_name: form.options.data.full_name,
+            full_name: form.full_name,
           },
         },
       });

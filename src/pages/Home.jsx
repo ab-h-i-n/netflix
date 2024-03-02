@@ -64,7 +64,7 @@ function Home({ usrData, UsrForm }) {
         </div>
       </div>
 
-      <VedioCard />
+      {usrData? <VedioCard /> : <></>}
     </>
   );
 }

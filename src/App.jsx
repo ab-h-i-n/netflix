@@ -33,17 +33,17 @@ function App() {
 
       const getUser = async () => {
 
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data } = await supabase.auth.getUser();
 
-        setUsrData(session?.user);
+        setUsrData(data?.user);
 
-        supabase.auth.onAuthStateChange((event, session) => {
+        supabase.auth.onAuthStateChange((event, data) => {
 
           switch (event) {
 
             case "SIGNED_IN":
 
-              setUsrData(session?.user);
+              setUsrData(data?.user);
               break;
 
             case "SIGNED_OUT":
