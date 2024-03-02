@@ -14,16 +14,7 @@ function SignUpPage({ UsrForm, handleSignUp }) {
 
     e.preventDefault();
 
-    handleSignUp().then(success => {
-
-      if (success) {
-
-        navigate('/');
-        window.location.reload();
-
-      }
-
-    });
+    handleSignUp().then(success => navigate('/'));
 
   }
 

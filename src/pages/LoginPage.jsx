@@ -18,15 +18,7 @@ function LoginPage({UsrForm,handleLogIn}) {
 
     e.preventDefault();
 
-    handleLogIn().then(success => {
-
-      if(success){
-
-        navigate('/');
-
-      }
-
-    });
+    handleLogIn().then(success => navigate('/'));
 
   }
 
