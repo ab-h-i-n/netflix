@@ -2,8 +2,9 @@ import React from "react";
 import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 
-function Home({ usrData, UsrForm }) {
+function Home({ usrData, UsrForm,isLoading }) {
 
   const { handleMailChange } = UsrForm;
 
@@ -19,6 +20,8 @@ function Home({ usrData, UsrForm }) {
 
   return (
     <>
+      {isLoading ? <LoadingPage/> : <></>}
+
       <div className="netback ">
 
         <Navbar links="true" usrData={usrData} />

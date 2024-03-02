@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import SubmitBtn from "../components/SubmitBtn";
 
 function SignUpPage({ UsrForm, handleSignUp }) {
 
@@ -8,11 +9,15 @@ function SignUpPage({ UsrForm, handleSignUp }) {
 
   const { form, handleMailChange, handlePassChange, handleNameChange } = UsrForm;
 
+  const [isLoading , setLoading] = useState(false);
+
   const handleSignUpSubmit = async (e) => {
+
+    setLoading(true)
 
     e.preventDefault();
 
-    handleSignUp().then(() => navigate('/'));
+    handleSignUp().then(() => navigate('/')).then(()=>{setLoading(false)});
 
   }
 
@@ -103,12 +108,9 @@ function SignUpPage({ UsrForm, handleSignUp }) {
                   </label>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-red-600 hover:bg-red-500  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Create an account
-              </button>
+
+              <SubmitBtn text="Create Account" isLoading={isLoading}/>
+
               <p className="text-sm font-light text-gray-400 ">
                 Already have an account?{" "}
                 <Link to="/login" className="font-medium  hover:underline text-red-500">

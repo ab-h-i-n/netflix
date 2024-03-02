@@ -26,12 +26,17 @@ function App() {
 
   const SignUpLogInFuctions = SignupLogin(UsrForm.form);
 
+  const [isLoading , setLoading] = useState(false);
+
 
   useEffect(() => {
 
     const getUser = async () => {
+      
+      setLoading(true);
+
       try {
-        const { data, error } = await supabase.auth.getUser();
+        const { data, error } = await supabase.auth.getUser().then(()=>setLoading(false));
   
         if (error) {
           console.error("Error retrieving user data");
@@ -79,7 +84,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} />} />
+        <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} isLoading={isLoading}/>} />
 
         <Route path='/login' element={
 

@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import SubmitBtn from '../components/SubmitBtn';
 
 
 function LoginPage({UsrForm,handleLogIn}) {
@@ -11,10 +12,14 @@ function LoginPage({UsrForm,handleLogIn}) {
 
   const {form,handleMailChange,handlePassChange} = UsrForm;
 
+  const [isLoading,setLoading] = useState(false);
+
 
   // on login btn click 
 
   const handleLogInSubmit = async(e) => {
+
+    setLoading(true);
 
     e.preventDefault();
 
@@ -26,7 +31,7 @@ function LoginPage({UsrForm,handleLogIn}) {
 
       }
 
-    });
+    }).then(()=>{setLoading(false)});
 
   }
 
@@ -80,12 +85,8 @@ function LoginPage({UsrForm,handleLogIn}) {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full text-white bg-red-600 hover:bg-red-500  focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              >
-                Login
-              </button>
+              <SubmitBtn text="Sign In" isLoading={isLoading}/>
+
               <p className="text-sm font-light text-gray-400 ">
                 Dont have an account?{" "}
                 <Link to="/signup" className="font-medium  hover:underline text-red-500">
