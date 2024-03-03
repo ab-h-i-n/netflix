@@ -42,12 +42,12 @@ const HomePage = ({ usrData }) => {
 
             {/* all */}
 
-            <div className='backdrop-blur-3xl'>
+            <div className='backdrop-blur-xl'>
                 <Navbar usrData={usrData} links="true" />
 
                 {isLoading ? <LoadingPage /> :
                     <div className='grid gap-y-5 mt-5 xl:px-20'>
-                        {catagories?.slice(0, 3).map((catagorie, index) => (
+                        {catagories?.map((catagorie, index) => (
 
                             <div key={`catogorie_${index}`} id={`catogorie_${index}`} className='p-5 flex gap-y-5 flex-col max-w-screen overflow-x-hidden'>
 
