@@ -4,14 +4,14 @@ import CardCarousel from '../components/CardCarousel';
 import LoadingPage from './LoadingPage';
 
 const HomePage = ({ usrData }) => {
-    const [movies, setMovies] = useState([]);
+    const [catagories, setCatagories] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     const fetchMovies = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://movies-api14.p.rapidapi.com/shows', {
+            const response = await fetch('https://movies-api14.p.rapidapi.com/home', {
                 method: 'GET',
                 headers: {
                     'X-RapidAPI-Key': 'f2055b719emsh7754c7e9e4be2d9p13156bjsn1f4dcd30da2a',
@@ -21,7 +21,7 @@ const HomePage = ({ usrData }) => {
 
             if (response.status === 200) {
                 const resultJson = await response.json();
-                setMovies(resultJson.movies);
+                setCatagories(resultJson);
             } else {
                 setError('Failed to fetch movies. Please try again later.');
             }
@@ -38,21 +38,50 @@ const HomePage = ({ usrData }) => {
     }, []);
 
     return (
-        <div className='min-h-screen bg-zinc-900 text-white'>
-            <Navbar usrData={usrData} links="true" />
+        <div className='min-h-screen netback text-white'>
 
-            {isLoading ? <LoadingPage /> : error ? (
-                <div className="text-white text-center mt-4">{error}</div>
-            ) : (
-                <div className='grid grid-cols-2 gap-x-5 px-4 gap-y-5 md:grid-cols-3 md:px-10 lg:grid-cols-4 lg:px-14 xl:gap-y-20  xl:px-20 xl:grid-cols-6'>
-                    {movies?.map((movie) => (
-                        <div key={movie._id} id={movie._id} className='flex gap-y-5 flex-col items-center'>
-                            <img src={movie.poster_path} alt={movie.title} className='h-[250px] xl:h-[300px] rounded-3xl' />
-                            <h1 className='w-full text-center flex justify-center'>{movie.title}</h1>
-                        </div>
-                    ))}
-                </div>
-            )}
+            {/* all */}
+
+            <div className='backdrop-blur-3xl'>
+                <Navbar usrData={usrData} links="true" />
+
+                {isLoading ? <LoadingPage /> :
+                    <div className='grid gap-y-5 mt-5 xl:px-20'>
+                        {catagories?.slice(0, 3).map((catagorie, index) => (
+
+                            <div key={`catogorie_${index}`} id={`catogorie_${index}`} className='p-5 flex gap-y-5 flex-col max-w-screen overflow-x-hidden'>
+
+                                {/* catogorie titile */}
+
+                                <h1 className='w-full bg-zinc-900 py-3 px-2 font-black xl:text-2xl '>{catagorie.title}</h1>
+
+                                {/* movies list */}
+
+                                <div className="flex gap-x-5 overflow-x-scroll xl:grid xl:grid-cols-5 xl:overflow-x-hidden xl:gap-y-10 xl:gap-x-10">
+
+                                    {catagorie.movies.map((movie, index) => {
+
+                                        return (
+                                            <div key={`${catagorie.title}_${index}`} id={`${catagorie.title}_${index}`} className='flex flex-col items-center gap-y-5 '>
+
+                                                <img src={movie.poster_path} alt={movie.title} className='max-w-[150px] xl:max-w-[250px] rounded-3xl' />
+
+                                                <h1 className='text-center text-wrap max-w-40 xl:text-xl'>{movie.title}</h1>
+
+                                            </div>
+                                        )
+
+
+                                    })}
+
+                                </div>
+
+                            </div>
+                        ))}
+                    </div>
+                }
+            </div>
+
         </div>
     );
 };
