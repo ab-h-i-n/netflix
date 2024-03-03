@@ -39,9 +39,9 @@ const HomePage = ({ usrData }) => {
 
             {/* all */}
 
-            <div className='backdrop-blur-xl'>
+            <div className='backdrop-blur-2xl'>
 
-                <Navbar usrData={usrData} links="true" />
+                <div className='bg-zinc-950'><Navbar usrData={usrData} links="true" /></div>
 
                 {isLoading ? <LoadingPage /> :
 
@@ -55,7 +55,7 @@ const HomePage = ({ usrData }) => {
 
                                     {/* catogorie titile */}
 
-                                    <h1 className='w-full bg-zinc-900 py-3 px-2 font-black xl:text-2xl '>{catagorie.title}</h1>
+                                    <h1 className='w-full bg-zinc-950 py-3 px-2 font-black xl:text-2xl '>{catagorie.title}</h1>
 
                                     {/* movies list */}
 
