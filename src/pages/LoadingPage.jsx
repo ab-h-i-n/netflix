@@ -3,7 +3,7 @@ import './LoadingPage.css'
 
 const LoadingPage = () => {
     return (
-        <div className=' z-50 w-screen h-screen flex items-center justify-center bg-zinc-900'>
+        <div className=' z-50 w-full h-screen flex items-center justify-center bg-zinc-900'>
             <span className="loader"></span> 
         </div>
     )
