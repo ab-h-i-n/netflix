@@ -2,9 +2,8 @@ import React from "react";
 import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
-import LoadingPage from "./LoadingPage";
 
-function Home({ usrData, UsrForm,isLoading,setLoading }) {
+function WelcomePage({ UsrForm }) {
 
   const { handleMailChange } = UsrForm;
 
@@ -20,13 +19,12 @@ function Home({ usrData, UsrForm,isLoading,setLoading }) {
 
   return (
     <>
-      {isLoading ? <LoadingPage/> : <></>}
 
       <div className="netback ">
 
-        <Navbar links="true" usrData={usrData} />
+        <Navbar links="true"/>
 
-        {/* Home contents   */}
+        {/* WelcomePage contents   */}
 
         <div className="py-24  md:py-44 h-full text-white grid place-items-center gap-y-5">
 
@@ -37,18 +35,14 @@ function Home({ usrData, UsrForm,isLoading,setLoading }) {
           {/* sub heading  */}
 
           <p className="text-lg md:text-2xl">Watch anywhere. Cancel anytime.</p>
-
-          {/* welcomming user  */}
-
-          <p className={`${usrData ? '' : 'hidden'} capitalize text-2xl flex gap-x-2 items-center`}>Welcome <span className="text-red-600 text-3xl">{usrData ? usrData.user_metadata.full_name : ''}</span></p>
-
+   
           {/* sub sub heading  */}
 
-          <p className={`${usrData ? 'hidden' : ''} text-lg text-center px-10 md:px-0 md:text-xl`}>Ready to watch? Enter your email to create or restart your membership.</p>
+          <p className={` text-lg text-center px-10 md:px-0 md:text-xl`}>Ready to watch? Enter your email to create or restart your membership.</p>
 
           {/* inputs  */}
 
-          <form onSubmit={handleMailSubmit} className={` ${usrData ? 'hidden' : ''} flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5`}>
+          <form onSubmit={handleMailSubmit} className={`  flex flex-col items-center gap-y-5 md:flex-row md:gap-x-5`}>
 
             {/* email box  */}
 
@@ -67,9 +61,8 @@ function Home({ usrData, UsrForm,isLoading,setLoading }) {
         </div>
       </div>
 
-      {usrData? <VedioCard setLoading={setLoading} /> : <></>}
     </>
   );
 }
 
-export default Home;
+export default WelcomePage;

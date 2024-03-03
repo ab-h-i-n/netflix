@@ -1,7 +1,6 @@
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Home from './pages/Home';
 import Footer from './components/Footer';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
@@ -11,6 +10,8 @@ import useUserForm from './UsrForm';
 import SignupLogin from './SignupLoginFunc';
 import { supabase } from "./SupaBase";
 import ProtectedRoute from './ProtectedRoute';
+import HomePage from './pages/HomePage';
+import LoadingPage from './pages/LoadingPage'
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
 
   const SignUpLogInFuctions = SignupLogin(UsrForm.form);
 
-  const [isLoading , setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function App() {
 
       try {
         const { data, error } = await supabase.auth.getUser();
-  
+
         if (error) {
           console.error("Error retrieving user data");
           return;
@@ -46,14 +47,14 @@ function App() {
         setUsrData(data?.user);
 
       } catch (error) {
-          console.error("Error retrieving user data");
-        }
-      };
-  
-    getUser().then(()=>setLoading(false));
-  
+        console.error("Error retrieving user data");
+      }
+    };
 
-    const {data} = supabase.auth.onAuthStateChange(
+    getUser().then(() => setLoading(false));
+
+
+    const { data } = supabase.auth.onAuthStateChange(
 
       async (event, session) => {
 
@@ -64,7 +65,7 @@ function App() {
             break;
 
           case "SIGNED_OUT":
-            setUsrData(null); 
+            setUsrData(null);
             break;
 
           default:
@@ -74,37 +75,41 @@ function App() {
 
       }
     );
-  
+
 
   }, []);
-  
 
 
 
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home usrData={usrData} UsrForm={UsrForm} isLoading={isLoading} setLoading={setLoading}/>} />
+  if (isLoading) {
 
-        <Route path='/login' element={
+    return (
+      <LoadingPage />
+    );
 
-          <ProtectedRoute usrData={usrData}>
-            <LoginPage UsrForm={UsrForm} handleLogIn={SignUpLogInFuctions.handleLogIn} />
-          </ProtectedRoute>
-        } />
+  } else {
 
-        <Route path='/signup' element={
 
-          <ProtectedRoute usrData={usrData}>
-            <SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />
-          </ProtectedRoute>
-        } />
+    return (
+      <BrowserRouter>
+        <Routes>
 
-        <Route path='*' element={<Error />} />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-  );
+          <Route path='/login' element={<LoginPage UsrForm={UsrForm} handleLogIn={SignUpLogInFuctions.handleLogIn} />} />
+
+          <Route path='/signup' element={<SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />} />
+
+          {/* protected routes */}
+          <Route path="/" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><HomePage usrData={usrData} /></ProtectedRoute>} />
+
+          {/* error  */}
+          <Route path='*' element={<Error />} />
+        </Routes>
+        <Footer />
+      </BrowserRouter>
+    );
+
+  }
+
 }
 
 export default App;

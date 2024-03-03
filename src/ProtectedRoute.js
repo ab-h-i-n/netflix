@@ -1,19 +1,10 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import WelcomePage from './pages/WelcomePage';
 
+const ProtectedRoute = ({ usrData, children, UsrForm }) => {
 
-const ProtectedRoute = ({ usrData, children }) => {
+    return usrData ? <>{children}</> : <WelcomePage  UsrForm={UsrForm} />;
+    
+};
 
-    if (usrData) {
-
-        return <Navigate to='/' replace />
-
-    } else {
-
-        return <>{children}</>;
-
-    }
-
-}
-
-export default ProtectedRoute
+export default ProtectedRoute;
