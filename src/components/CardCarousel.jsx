@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import LoadingPage from '../pages/LoadingPage';
+
 
 const CardCarousel = ({ topMovies }) => {
   const [isLoading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const CardCarousel = ({ topMovies }) => {
 
         carouselRef.current.scrollLeft += window.innerWidth;
 
-        if (carouselRef.current.scrollLeft > (3 * window.innerWidth)) {
+        if (carouselRef.current.scrollLeft > (3.5 * window.innerWidth)) {
           carouselRef.current.scrollLeft = 0;
         }
       }, 3000);
@@ -28,24 +28,28 @@ const CardCarousel = ({ topMovies }) => {
   }, [topMovies]);
 
   return (
-    <div className='flex justify-center'>
+    <div className='flex justify-center mt-0 lg:mt-10'>
       <div
         ref={carouselRef}
-        className='w-screen xl:w-[80vw] xl:h-[600px]  grid grid-flow-col overflow-x-hidden snap-x'
+        className='w-screen xl:w-[90vw] xl:h-[700px]  grid grid-flow-col overflow-x-hidden snap-x'
       >
         {isLoading ? (
           <div className='flex items-center justify-center h-[239px] w-screen xl:w-[80vw]'>
             <span className="loader"></span>
           </div>
         ) : (
-          topMovies.map((movies) => (
+          topMovies.map((movies, index) => (
             <div
               key={movies.id}
-              className='bg-gradient-to-b from-[#ffffff30] to-[#000000db] xl:to-black relative snap-start w-screen xl:w-[80vw] bg-zinc-800 rounded overflow-hidden'
+              className='bg-gradient-to-b from-[#ffffff30] to-[#000000db] xl:to-black relative snap-start w-screen xl:object-cover bg-zinc-800 rounded overflow-hidden'
             >
-              <img src={movies.backdrop_path} alt={movies.title} className='w-full mix-blend-overlay' />
+              <img src={movies.backdrop_path} alt={movies.title} className='object-cover min-h-[330px] mix-blend-overlay' />
 
-              <h1 className='absolute bottom-10 left-5 z-50 font-bold text-3xl lg:text-6xl lg:bottom-20 lg:left-20 max-w-2xl'>{movies.title}</h1>
+
+              <div className="absolute bottom-10 left-5 z-50 grid lg:gap-y-3 lg:left-20 lg:bottom-20">
+                <p className='font-medium text-red-600 md:text-xl lg:text-2xl'>#Trending {index + 1}</p>
+                <h1 className='font-bold text-3xl lg:text-6xl lg:bottom-20 lg:left-20 max-w-2xl'>{movies.title}</h1>
+              </div>
             </div>
           ))
         )}
