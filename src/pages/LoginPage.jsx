@@ -38,7 +38,7 @@ function LoginPage({UsrForm,handleLogIn}) {
   return (
     <section className='netback'>
 
-      <Navbar links="true" />
+      <Navbar/>
 
       {/* other contents  */}
 

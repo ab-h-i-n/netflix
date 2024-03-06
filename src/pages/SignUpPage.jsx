@@ -24,7 +24,7 @@ function SignUpPage({ UsrForm, handleSignUp }) {
   return (
     <section className="netback">
 
-      <Navbar links="true" />
+      <Navbar/>
 
       {/* other contents  */}
 

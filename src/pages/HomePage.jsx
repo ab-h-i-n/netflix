@@ -28,37 +28,37 @@ const HomePage = ({ usrData }) => {
 
     useEffect(() => {
         fetchMovies();
-        
+
     }, []);
 
-    const topMovies = catagories[0]?.movies.slice(0,5);
+    const topMovies = catagories[0]?.movies.slice(0, 5);
 
     return (
         <div className='min-h-screen text-white'>
 
             {/* all */}
 
-            <div className='bg-[#120f0f]'>
+            <div >
 
-                <div className='bg-zinc-950'><Navbar usrData={usrData} links="true" /></div>
+                <div className='bg-transparent absolute top-0 z-[100] w-full'><Navbar usrData={usrData}  /></div>
 
                 {isLoading ? <LoadingPage /> :
 
                     <>
                         <CardCarousel topMovies={topMovies} />
 
-                        <div className='grid gap-y-5 mt-5 xl:px-20'>
+                        <div className='grid gap-y-10 my-10 xl:px-20'>
                             {catagories?.map((catagorie, index) => (
 
-                                <div key={`catogorie_${index}`} id={`catogorie_${index}`} className='py-5 px-3 flex gap-y-5 flex-col max-w-screen overflow-x-hidden'>
+                                <div key={`catogorie_${index}`} id={`catogorie_${index}`} className=' flex gap-y-5 flex-col max-w-screen overflow-x-hidden'>
 
                                     {/* catogorie titile */}
 
-                                    <h1 className='w-full text-red-600 bg-zinc-950 py-3 px-5 text-xl font-black xl:text-2xl rounded'>{catagorie.title}</h1>
+                                    <h1 className='w-full px-5  text-xl font-black lg:text-3xl rounded'>{catagorie.title}</h1>
 
                                     {/* movies list */}
 
-                                    <div className=" flex gap-x-5 overflow-x-scroll xl:grid xl:grid-cols-5 xl:overflow-x-hidden xl:gap-y-10 xl:gap-x-10">
+                                    <div className="px-5 flex gap-x-5 overflow-x-scroll xl:grid xl:grid-cols-5 xl:overflow-x-hidden xl:gap-y-10 xl:gap-x-10">
 
                                         {catagorie.movies.map((movie, index) => {
 

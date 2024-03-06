@@ -28,10 +28,10 @@ const CardCarousel = ({ topMovies }) => {
   }, [topMovies]);
 
   return (
-    <div className='flex justify-center mt-0 lg:mt-10'>
+    <div className='flex justify-center '>
       <div
         ref={carouselRef}
-        className='w-screen xl:w-[90vw] xl:h-[700px]  grid grid-flow-col overflow-x-hidden snap-x'
+        className='w-screen xl:h-[700px]  grid grid-flow-col overflow-x-hidden snap-x'
       >
         {isLoading ? (
           <div className='flex items-center justify-center h-[239px] w-screen xl:w-[80vw]'>
@@ -41,9 +41,11 @@ const CardCarousel = ({ topMovies }) => {
           topMovies.map((movies, index) => (
             <div
               key={movies.id}
-              className='bg-gradient-to-b from-[#ffffff30] to-[#000000db] xl:to-black relative snap-start w-screen xl:object-cover bg-zinc-800 rounded overflow-hidden'
+              className='relative snap-start w-screen xl:object-cover rounded overflow-hidden'
             >
-              <img src={movies.backdrop_path} alt={movies.title} className='object-cover min-h-[330px] mix-blend-overlay' />
+              <div className="carousel-bg w-screen h-full absolute bottom-0"></div>
+
+              <img src={movies.backdrop_path} alt={movies.title} className='object-cover min-h-[430px] ' />
 
 
               <div className="absolute bottom-10 left-5 z-50 grid lg:gap-y-3 lg:left-20 lg:bottom-20">

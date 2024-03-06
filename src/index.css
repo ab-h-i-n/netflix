@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --zinc-950: #09090b;
+}
+
+body {
+  background-color: var(--zinc-950);
+}
+
 .netback {
   background: linear-gradient(rgba(0, 0, 0, 0.781),
       rgba(0, 0, 0, 0.663)), url('/public/assets/bgImg.jpg');
   background-size: cover;
 
+}
+
+.carousel-bg {
+  background: #00000000;
+  background: linear-gradient(180deg, #09090b80 20%, var(--zinc-950) 98%);
 }

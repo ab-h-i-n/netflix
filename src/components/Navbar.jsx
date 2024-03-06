@@ -3,17 +3,17 @@ import Btn from "./Btn";
 import { Link } from "react-router-dom";
 import { supabase } from "../SupaBase";
 
-function Navbar({ links, usrData }) {
+function Navbar({ usrData }) {
 
-  const handleSignOut = async() => {
+  const handleSignOut = async () => {
 
     await supabase.auth.signOut();
-  
+
 
   }
 
   return (
-    <div className={`${links ? '' : 'bg-zinc-900'} nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
+    <div className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
 
       {/* logo */}
       <Link to="/">
@@ -21,10 +21,13 @@ function Navbar({ links, usrData }) {
       </Link>
 
       {/* links */}
-      {links && (
-        <ul className="flex gap-x-4 items-center">
+
+      <ul className="flex gap-x-4 items-center">
+
+        {usrData ? "" :
+
           <li className="flex items-center relative">
-            <img src="/assets/language.svg" className="w-5 absolute left-2" alt="lang"/>
+            <img src="/assets/language.svg" className="w-5 absolute left-2" alt="lang" />
             <select
               name="lang"
               id="lang"
@@ -33,19 +36,20 @@ function Navbar({ links, usrData }) {
               <option value="English">English</option>
             </select>
           </li>
+        }
 
-          {usrData ?
+        {usrData ?
 
-            <li onClick={handleSignOut}>
-              <Btn text='Sign Out' link='' />
-            </li> :
-            <li>
-              <Btn text='Sign In' link='/login' />
-            </li>
-          }
+          <li onClick={handleSignOut}>
+            <Btn text='Sign Out' link='' />
+          </li> :
+          <li>
+            <Btn text='Sign In' link='/login' />
+          </li>
+        }
 
-        </ul>
-      )}
+      </ul>
+
     </div>
   );
 }
