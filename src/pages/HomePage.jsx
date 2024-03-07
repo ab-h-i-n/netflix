@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import CardCarousel from '../components/CardCarousel';
 import LoadingPage from './LoadingPage';
+import { Link } from 'react-router-dom';
+import MoviePoster from '../components/MoviePoster';
+
 
 const HomePage = ({ usrData }) => {
     const [catagories, setCatagories] = useState([]);
@@ -62,7 +65,7 @@ const HomePage = ({ usrData }) => {
 
                                         {/* show more button  */}
 
-                                        <button className='transition-all  text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</button>
+                                        <Link to={`/home/catagories/${catagorie.title}`} className='transition-all  text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</Link>
 
                                     </div>
 
@@ -73,11 +76,7 @@ const HomePage = ({ usrData }) => {
                                         {catagorie.movies.slice(0, 6).map((movie, index) => {
 
                                             return (
-                                                <abbr title={movie.title} key={`${catagorie.title}_${index}`} id={`${catagorie.title}_${index}`} className='flex flex-col items-center gap-y-5 hover:brightness-50 cursor-pointer'>
-
-                                                    <img src={movie.poster_path} alt={movie.title} className='max-w-[150px] xl:max-w-[250px] rounded-3xl' />
-
-                                                </abbr>
+                                                <MoviePoster movie={movie} catagorie={catagorie} index={index}/>
                                             )
 
 
