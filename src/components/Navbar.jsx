@@ -13,7 +13,7 @@ function Navbar({ usrData }) {
   }
 
   return (
-    <div className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent md:px-48`}>
+    <div className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent lg:px-48`}>
 
       {/* logo */}
       <Link to="/">

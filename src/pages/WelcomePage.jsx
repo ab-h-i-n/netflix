@@ -1,5 +1,4 @@
 import React from "react";
-import VedioCard from "../components/vedioCard";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 

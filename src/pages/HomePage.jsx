@@ -40,27 +40,37 @@ const HomePage = ({ usrData }) => {
 
             <div >
 
-                <div className='bg-transparent absolute top-0 z-[100] w-full'><Navbar usrData={usrData}  /></div>
+                <div className='bg-transparent absolute top-0 z-[100] w-full'><Navbar usrData={usrData} /></div>
 
                 {isLoading ? <LoadingPage /> :
 
                     <>
                         <CardCarousel topMovies={topMovies} />
 
-                        <div className='grid gap-y-10 my-10 xl:px-20'>
+                        <div className='grid gap-y-10 my-10'>
                             {catagories?.map((catagorie, index) => (
 
                                 <div key={`catogorie_${index}`} id={`catogorie_${index}`} className=' flex gap-y-5 flex-col max-w-screen overflow-x-hidden'>
 
-                                    {/* catogorie titile */}
+                                    {/* title and see more button  */}
 
-                                    <h1 className='w-full px-5  text-xl font-black lg:text-3xl rounded'>{catagorie.title}</h1>
+                                    <div className="flex justify-between items-center w-full px-5  xl:px-20">
+
+                                        {/* catogorie titile */}
+
+                                        <h1 className='  text-xl font-black lg:text-3xl max-w-[200px] xl:max-w-full'>{catagorie.title}</h1>
+
+                                        {/* show more button  */}
+
+                                        <button className=' text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</button>
+
+                                    </div>
 
                                     {/* movies list */}
 
-                                    <div className="px-5 flex gap-x-5 overflow-x-scroll xl:grid xl:grid-cols-5 xl:overflow-x-hidden xl:gap-y-10 xl:gap-x-10">
+                                    <div className="px-5 flex gap-x-5 overflow-x-scroll xl:px-20 xl:overflow-x-hidden xl:gap-y-10 xl:gap-x-10">
 
-                                        {catagorie.movies.map((movie, index) => {
+                                        {catagorie.movies.slice(0, 6).map((movie, index) => {
 
                                             return (
                                                 <abbr title={movie.title} key={`${catagorie.title}_${index}`} id={`${catagorie.title}_${index}`} className='flex flex-col items-center gap-y-5 hover:brightness-50 cursor-pointer'>
