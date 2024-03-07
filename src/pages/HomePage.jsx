@@ -62,7 +62,7 @@ const HomePage = ({ usrData }) => {
 
                                         {/* show more button  */}
 
-                                        <button className=' text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</button>
+                                        <button className='transition-all  text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</button>
 
                                     </div>
 
