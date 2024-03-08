@@ -9,6 +9,7 @@ const MoviePage = () => {
     const { id } = useParams();
 
     const [isLoading, setLoading] = useState(false);
+    const [catagorie, setCatagorie] = useState();
     const [movie, setMovie] = useState();
 
 
@@ -22,6 +23,8 @@ const MoviePage = () => {
                 const resultJson = await response.json();
 
                 const resultCatagorie = resultJson.find(catagorie => catagorie.movies.find(movie => movie.title === id));
+
+                setCatagorie(resultCatagorie);
 
                 const result = resultCatagorie.movies.find(movie => movie.title === id);
 
@@ -44,7 +47,7 @@ const MoviePage = () => {
     useEffect(() => {
         fetchMovies();
 
-    }, []);
+    }, [id]);
 
     return <>
 
@@ -99,6 +102,30 @@ const MoviePage = () => {
                         <h1 className='text-red-600 font-black text-xl lg:text-4xl'>Overview</h1>
 
                         <p className='p-2 leading-8 text-justify lg:text-xl lg:leading-10'>{movie?.overview}</p>
+
+                    </div>
+
+                    {/* more like this  */}
+
+                    <div className='p-5 lg:px-80'>
+                        <h1 className='text-red-600 font-black text-xl lg:text-4xl'>More Like This</h1>
+
+                        {/* more based on catagorie  */}
+
+                        <div className='grid grid-cols-2 place-items-center py-5 gap-5'>
+                            {
+                                catagorie?.movies.map((movie) => {
+
+                                    return (
+                                        <div key={`more_${movie._id}`} className=' flex flex-col items-center gap-y-3'>
+                                            <MoviePoster  movie={movie} />
+                                            <h1 className='text-center font-medium lg:text-lg'>{movie.title}</h1>
+                                        </div>
+                                    )
+
+                                })
+                            }
+                        </div>
 
                     </div>
 
