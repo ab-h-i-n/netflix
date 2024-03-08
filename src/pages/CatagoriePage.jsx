@@ -65,7 +65,7 @@ function CatagoriePage() {
 
                                     return (
                                         <div className='flex flex-col items-center gap-y-3'>
-                                            <MoviePoster key={movie.title} movie={movie} index={index} catagorie={catagories} />
+                                            <MoviePoster key={movie.title} movie={movie}  />
                                             <h1 className='text-center font-medium lg:text-lg'>{movie.title}</h1>
                                         </div>
                                     )

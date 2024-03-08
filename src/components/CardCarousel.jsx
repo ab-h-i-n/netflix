@@ -40,7 +40,7 @@ const CardCarousel = ({ topMovies }) => {
         ) : (
           topMovies.map((movies, index) => (
             <div
-              key={movies.id}
+              key={`carousel_${movies._id}`}
               className='relative snap-start w-screen xl:object-cover rounded overflow-hidden'
             >
               <div className="carousel-bg w-screen h-full absolute bottom-0"></div>

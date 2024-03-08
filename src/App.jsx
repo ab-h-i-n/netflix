@@ -13,6 +13,7 @@ import ProtectedRoute from './ProtectedRoute';
 import HomePage from './pages/HomePage';
 import LoadingPage from './pages/LoadingPage'
 import CatagoriePage from './pages/CatagoriePage';
+import MoviePage from './pages/MoviePage';
 
 function App() {
 
@@ -101,8 +102,8 @@ function App() {
 
           {/* protected routes */}
           <Route path="/" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><HomePage usrData={usrData} /></ProtectedRoute>} />
-          <Route path="/home/catagories/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><CatagoriePage /></ProtectedRoute>} />
-
+          <Route path="/catagories/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><CatagoriePage /></ProtectedRoute>} />
+          <Route path="/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage/></ProtectedRoute>} />
 
           {/* error  */}
           <Route path='*' element={<Error />} />

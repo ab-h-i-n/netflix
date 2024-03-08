@@ -65,7 +65,7 @@ const HomePage = ({ usrData }) => {
 
                                         {/* show more button  */}
 
-                                        <Link to={`/home/catagories/${catagorie.title}`} className='transition-all  text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</Link>
+                                        <Link to={`/catagories/${catagorie.title}`} className='transition-all  text-red-600 text-basis font-black lg:text-xl p-2 rounded hover:bg-zinc-800 '>Show More</Link>
 
                                     </div>
 
@@ -76,7 +76,7 @@ const HomePage = ({ usrData }) => {
                                         {catagorie.movies.slice(0, 6).map((movie, index) => {
 
                                             return (
-                                                <MoviePoster movie={movie} catagorie={catagorie} index={index}/>
+                                                <MoviePoster key={`poster_${movie._id}`} movie={movie} />
                                             )
 
 
