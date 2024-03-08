@@ -72,7 +72,7 @@ const MoviePage = () => {
 
                     {/* details  */}
 
-                    <div className='py-10 px-5 flex gap-x-5 lg:px-80 lg:gap-x-20'>
+                    <div className='py-10 px-5 flex gap-x-5 lg:px-40 lg:gap-x-20'>
 
                         {/* poster  */}
                         <MoviePoster movie={movie} />
@@ -98,7 +98,7 @@ const MoviePage = () => {
 
                     {/* overview  */}
 
-                    <div className='p-5 lg:px-80'>
+                    <div className='p-5 lg:px-40'>
                         <h1 className='text-red-600 font-black text-xl lg:text-4xl'>Overview</h1>
 
                         <p className='p-2 leading-8 text-justify lg:text-xl lg:leading-10'>{movie?.overview}</p>
@@ -107,12 +107,12 @@ const MoviePage = () => {
 
                     {/* more like this  */}
 
-                    <div className='p-5 lg:px-80'>
+                    <div className='p-5 lg:px-40'>
                         <h1 className='text-red-600 font-black text-xl lg:text-4xl'>More Like This</h1>
 
                         {/* more based on catagorie  */}
 
-                        <div className='grid grid-cols-2 place-items-center py-5 gap-5'>
+                        <div className='grid grid-cols-2 place-items-center py-5 gap-5 lg:grid-cols-5'>
                             {
                                 catagorie?.movies.map((movie) => {
 
