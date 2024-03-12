@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage';
 import LoadingPage from './pages/LoadingPage'
 import MoviePage from './pages/MoviePage';
 import CatagoriePage from './pages/CatagoriePage';
+import Vedio from './components/TrailerCard';
 
 
 function App() {
@@ -100,12 +101,13 @@ function App() {
           <Route path='/login' element={<LoginPage UsrForm={UsrForm} handleLogIn={SignUpLogInFuctions.handleLogIn} />} />
 
           <Route path='/signup' element={<SignUpPage UsrForm={UsrForm} handleSignUp={SignUpLogInFuctions.handleSignUp} />} />
+          
+          <Route path='/test/:id' element={<Vedio/>} />
 
           {/* protected routes */}
           <Route path="/" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><HomePage usrData={usrData} /></ProtectedRoute>} />
           <Route path="/catagories/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><CatagoriePage /></ProtectedRoute>} />
-          <Route path="/movies/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage /></ProtectedRoute>} />
-          <Route path="/series/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage /></ProtectedRoute>} />
+          <Route path="/movies/:title/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage /></ProtectedRoute>} />
 
           {/* error  */}
           <Route path='*' element={<Error />} />

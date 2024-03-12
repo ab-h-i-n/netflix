@@ -12,7 +12,7 @@ const HomeNav = ({ hasBack }) => {
     }
 
     return (
-        <nav className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent lg:px-32 absolute top-0 z-50`}>
+        <nav className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent lg:px-32 `}>
 
             {hasBack ? (
                 // Back button

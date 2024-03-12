@@ -53,14 +53,11 @@ function CatagoriePage() {
             window.scrollTo(0, 0);
         }
     };
-
-
+          
 
     useEffect(() => {
 
         fetchMovies();
-
-        console.log(page);
 
     }, [page]);
 
@@ -74,7 +71,7 @@ function CatagoriePage() {
                     <div className='min-h-screen text-white'>
 
 
-                        <HomeNav hasBack={true} />
+                        <div className={`transition-all delay-200 fixed w-full top-0 z-[100] `}><HomeNav hasBack={true} /></div>
 
                         <CardCarousel apiUrl={Catagorie.catagorie_url} />
 

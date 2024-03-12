@@ -6,7 +6,7 @@ const MoviePoster = ({ movie, type }) => {
 
 
         <Link
-            to={type === 'movie' ? `/movies/${movie?.title}` : `/series/${movie?.name}`}
+            to={type === 'movie' ? `/movies/${movie?.title}/${movie?.id}` : `/movies/${movie?.name}/${movie.id}`}
         >
             <abbr
                 title={type === 'movie' ? movie?.title : movie?.name}
