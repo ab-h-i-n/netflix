@@ -21,3 +21,26 @@ body {
   background: #00000000;
   background: linear-gradient(180deg, #09090b80 20%, var(--zinc-950) 98%);
 }
+
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.img-loading {
+
+  animation: loading 1s infinite ease-in-out;
+
+}
+
+@keyframes loading {
+
+  0% {
+    background-color: rgb(24 24 27);
+  }
+
+  50% {
+    background-color: rgb(42, 42, 44);
+  }
+
+}

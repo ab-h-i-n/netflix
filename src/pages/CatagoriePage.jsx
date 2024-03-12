@@ -3,26 +3,44 @@ import { Link, useParams } from 'react-router-dom';
 import LoadingPage from './LoadingPage';
 import MoviePoster from '../components/MoviePoster';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { MovieCatagories } from '../MovieCatagories';
+import { apiKey, apiToken } from '../env';
+import CardCarousel from '../components/CardCarousel';
+import HomeNav from '../components/HomeNav';
+import PageChangeBtn from '../components/PageChangeBtn';
 
 function CatagoriePage() {
     const { id } = useParams();
 
     const [isLoading, setLoading] = useState(false);
-    const [catagories, setCatagories] = useState();
+    const [movies, setMovies] = useState();
+    const [maxPage, setMaxPage] = useState();
 
+    const [page, setPage] = useState(1);
+
+    const Catagorie = MovieCatagories.find(cat => cat.catagorie_path === id);
+
+    const apiFetchUrl = `${Catagorie.catagorie_url}${apiKey}&language=en-US&page=${page}`;
 
     const fetchMovies = async () => {
 
         try {
             setLoading(true);
-            const response = await fetch('https://65e48c823070132b3b24e9dc.mockapi.io/home');
+            const response = await fetch(apiFetchUrl,
+                {
+                    method: "GET",
+                    headers: {
+                        'Authorization': `Bearer ${apiToken}`,
+                        'Accept': 'application/json',
+                    }
+                }
+            );
+
 
             if (response.status === 200) {
                 const resultJson = await response.json();
-
-                const result = resultJson.find(catagorie => catagorie.title === id);
-
-                setCatagories(result);
+                setMovies(resultJson.results);
+                setMaxPage(resultJson.total_pages);
 
             } else {
                 console.error('Failed to fetch movies. Please try again later.');
@@ -32,15 +50,19 @@ function CatagoriePage() {
             console.error('An unexpected error occurred. Please try again later.');
         } finally {
             setLoading(false);
+            window.scrollTo(0, 0);
         }
     };
 
 
 
     useEffect(() => {
+
         fetchMovies();
 
-    }, []);
+        console.log(page);
+
+    }, [page]);
 
 
 
@@ -51,28 +73,30 @@ function CatagoriePage() {
 
                     <div className='min-h-screen text-white'>
 
-                        <header className='fixed top-0 w-full bg-black p-5 flex gap-x-5 items-center'>
-                            <Link to={'/'} ><ArrowBackIcon style={{fontSize : '2rem'}} /></Link>
-                            <h1 className='text-xl font-black lg:text-2xl'>{catagories?.title}</h1>
-                        </header>
 
+                        <HomeNav hasBack={true} />
+
+                        <CardCarousel apiUrl={Catagorie.catagorie_url} />
 
                         {/* all movies  */}
 
-                        <div className='grid grid-cols-2 gap-5 mb-5 mt-24 px-2 lg:grid-cols-5'>
+                        <div className='grid grid-cols-2 gap-5 mb-5 mt-5 px-8 lg:grid-cols-5'>
                             {
-                                catagories?.movies.map((movie, index) => {
+                                movies?.map((movie, index) => {
 
                                     return (
-                                        <div  key={`catagorie_${movie?._id}`} className='flex flex-col items-center gap-y-3'>
-                                            <MoviePoster movie={movie}  />
-                                            <h1 className='text-center font-medium lg:text-lg'>{movie.title}</h1>
+                                        <div key={`catagorie_${movie?.id}`} className='flex flex-col items-center gap-y-3'>
+                                            <MoviePoster movie={movie} type={Catagorie.type} isLoading={isLoading} />
+                                            <h1 className='text-center font-medium lg:text-lg'>{Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`}</h1>
                                         </div>
                                     )
 
                                 })
                             }
                         </div>
+
+                        <PageChangeBtn page={page} setPage={setPage} maxPage={maxPage} />
+
                     </div>
 
                 )

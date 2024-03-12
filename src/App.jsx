@@ -12,8 +12,9 @@ import { supabase } from "./SupaBase";
 import ProtectedRoute from './ProtectedRoute';
 import HomePage from './pages/HomePage';
 import LoadingPage from './pages/LoadingPage'
-import CatagoriePage from './pages/CatagoriePage';
 import MoviePage from './pages/MoviePage';
+import CatagoriePage from './pages/CatagoriePage';
+
 
 function App() {
 
@@ -103,7 +104,8 @@ function App() {
           {/* protected routes */}
           <Route path="/" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><HomePage usrData={usrData} /></ProtectedRoute>} />
           <Route path="/catagories/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><CatagoriePage /></ProtectedRoute>} />
-          <Route path="/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage/></ProtectedRoute>} />
+          <Route path="/movies/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage /></ProtectedRoute>} />
+          <Route path="/series/:id" element={<ProtectedRoute usrData={usrData} UsrForm={UsrForm}><MoviePage /></ProtectedRoute>} />
 
           {/* error  */}
           <Route path='*' element={<Error />} />
