@@ -79,8 +79,8 @@ const CardCarousel = ({ apiUrl }) => {
               <img src={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`} alt={Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`} className='object-cover min-h-[430px] w-screen' />
 
               <div className="absolute bottom-10 left-5 z-50 grid lg:gap-y-3 lg:left-20 lg:bottom-20">
-                <p className='font-medium text-red-600 md:text-xl lg:text-2xl'>#Trending {index + 1}</p>
-                <h1 className='font-bold text-3xl lg:text-6xl lg:bottom-20 lg:left-20 max-w-2xl'>{Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`}</h1>
+                <p className='font-medium text-red-600 md:text-xl lg:text-2xl'>#Spotlight {index + 1}</p>
+                <h1 className='font-bold text-3xl max-w-sm lg:text-6xl lg:bottom-20 lg:left-20 lg:max-w-2xl'>{Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`}</h1>
               </div>
             </div>
           ))

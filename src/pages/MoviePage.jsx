@@ -5,6 +5,8 @@ import LoadingPage from './LoadingPage';
 import MoviePoster from '../components/MoviePoster';
 import { apiKey, apiToken } from '../env';
 import MovieNav from '../components/MovieNav';
+import MovieDescription from '../components/MovieDescription';
+import SimilarMovies from '../components/SimilarMovies';
 
 const MoviePage = () => {
 
@@ -14,14 +16,15 @@ const MoviePage = () => {
     const [isLoading, setLoading] = useState(false);
     const [movie, setMovie] = useState();
 
-
-    var apiUrl = `https://api.themoviedb.org/3/movie/${id}`
-
+    const [api, setApi] = useState();
 
     const fetchMovies = async () => {
 
+        window.scrollTo(0, 0)
         try {
             setLoading(true);
+            var apiUrl = `https://api.themoviedb.org/3/movie/${id}`;
+            setApi(apiUrl);
             const response = await fetch(apiUrl,
                 {
                     method: "GET",
@@ -35,8 +38,6 @@ const MoviePage = () => {
 
                 const resultJson = await response.json();
 
-                console.log(resultJson);
-
                 if (resultJson?.title != title) {
 
                     fetchSeries();
@@ -46,7 +47,7 @@ const MoviePage = () => {
                     setMovie(resultJson)
                 }
 
-            }else {
+            } else {
 
                 fetchSeries()
             }
@@ -55,8 +56,6 @@ const MoviePage = () => {
         } catch (error) {
 
             console.error(error);
-        } finally {
-            setLoading(false);
         }
     };
 
@@ -66,7 +65,9 @@ const MoviePage = () => {
         try {
             setLoading(true);
             console.log("series");
-            const response = await fetch(`https://api.themoviedb.org/3/tv/${id}`,
+            var apiUrl = `https://api.themoviedb.org/3/tv/${id}`;
+            setApi(apiUrl);
+            const response = await fetch(apiUrl,
                 {
                     method: "GET",
                     headers: {
@@ -93,28 +94,60 @@ const MoviePage = () => {
 
 
     useEffect(() => {
-        fetchMovies();
-        window.scrollTo(0, 0)
+        fetchMovies().then(() => setLoading(false))
 
     }, [id]);
+
+
+    useEffect(()=>{
+
+        console.log(movie);
+
+    },[movie])
 
     return <>
 
         {
             isLoading ? <LoadingPage /> :
 
-                <div className='min-h-screen text-white'>
+                <div className=' text-white'>
 
                     <div className='sticky top-0 z-[100]'><MovieNav /></div>
 
                     {/* backdrop img  */}
 
-                    <div className='z-[0] sticky top-0 w-screen xl:object-cover rounded overflow-hidden'>
-                        <div className="carousel-bg w-screen h-full absolute bottom-0 opacity-75"></div>
-                        <img className='object-cover min-h-[430px] w-screen' src={`https://image.tmdb.org/t/p/original/${movie?.adult ? " " : movie?.backdrop_path}`} alt={(movie?.title || movie?.name)} />
+                    {
+                        movie && (
+
+                            <div className='relative'>
+
+                                <div className={`backdrop-clip relative w-full xl:object-cover rounded overflow-clip `}>
+                                    <div className="carousel-bg w-screen h-full absolute bottom-0 opacity-75 "></div>
+                                    <img className='object-cover min-h-[430px] ' src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`} alt={(movie?.title || movie?.name)} />
+                                </div>
+
+                                <button className='p-4 bg-zinc-900 rounded-full absolute bottom-[-25px] z-[50] left-[50%] translate-x-[-50%] shadow-lg shadow-black'>
+                                    <img src="/assets/play_icon.svg" alt="Play" className='w-8 h-8' />
+                                </button>
+
+                            </div>
+
+                        )
+                    }
+
+                    {/* movie details  */}
+
+                    <div className='sticky z-[0] bg-zinc-950'>
+
+                        <MovieDescription movie={movie} />
+
                     </div>
 
-                    <div className='sticky h-screen z-[50] bg-zinc-950'></div>
+                    {/* more like this  */}
+
+                    <div className='mt-5'>
+                        <SimilarMovies api={api} />
+                    </div>
 
                 </div>
         }

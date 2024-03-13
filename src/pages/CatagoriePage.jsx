@@ -83,8 +83,15 @@ function CatagoriePage() {
 
                                     return (
                                         <div key={`catagorie_${movie?.id}`} className='flex flex-col items-center gap-y-3'>
-                                            <MoviePoster movie={movie} type={Catagorie.type} isLoading={isLoading} />
-                                            <h1 className='text-center font-medium lg:text-lg'>{Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`}</h1>
+                                            {
+                                                movie?.backdrop_path !== null && (
+                                                    <>
+                                                        <MoviePoster movie={movie} type={Catagorie.type}  />
+                                                        <h1 className='text-center font-medium lg:text-lg'>{Catagorie.type === "movie" ? `${movie?.title}` : `${movie?.name}`}</h1>
+                                                    </>
+                                                )
+                                            }
+                                            
                                         </div>
                                     )
 

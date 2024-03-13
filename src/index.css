@@ -44,3 +44,20 @@ body {
   }
 
 }
+
+
+
+.backdrop-clip {
+  clip-path: circle(0% at 50% 0);
+  animation: backdrop-reveal .2s linear forwards;
+}
+
+@keyframes backdrop-reveal {
+  0% {
+    clip-path: circle(0% at 50% 0);
+  }
+
+  100% {
+    clip-path: circle(100.0% at 50% 0);
+  }
+}
