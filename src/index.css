@@ -61,3 +61,11 @@ body {
     clip-path: circle(100.0% at 50% 0);
   }
 }
+
+details > summary {
+  list-style: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}

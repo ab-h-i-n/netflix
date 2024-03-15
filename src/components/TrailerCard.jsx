@@ -1,64 +1,81 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { apiKey, apiToken } from '../env';
-import YouTube from 'react-youtube';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { apiKey, apiToken } from "../env";
+import YouTube from "react-youtube";
 
-const TrailerCard = () => {
-
+const TrailerCard = ({ playState, type }) => {
   const { id } = useParams();
-
-  const apiFetchUrl = `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`;
-
   const [videos, setVideos] = useState([]);
   const [trailer, setTrailer] = useState(null);
 
-  const TrailerUrl = `https://www.youtube.com/watch?v=${trailer}`
+  const TrailerUrl = `https://www.youtube.com/watch?v=${trailer}`;
 
   const fetchVideo = async () => {
     try {
+      const apiFetchUrl = `https://api.themoviedb.org/3/${type}/${id}/videos?language=en-US`;
+
       const response = await fetch(apiFetchUrl, {
         method: "GET",
         headers: {
-          'Authorization': `Bearer ${apiToken}`,
-          'Accept': 'application/json',
-        }
+          Authorization: `Bearer ${apiToken}`,
+          Accept: "application/json",
+        },
       });
 
       const json = await response.json();
       setVideos(json.results);
 
-      const foundTrailer = json.results.find(video => video.type == "Trailer");
-      setTrailer(foundTrailer.key);
+      const foundTrailer = json.results.find(
+        (video) => video.type == "Trailer"
+      );
 
+      if (!foundTrailer) {
+        setTrailer(json.results[json.results.length - 1].key);
+      } else {
+        setTrailer(foundTrailer.key);
+      }
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchVideo();
-  }, [id]);
+  }, [id, type]);
 
   useEffect(() => {
-    console.log(trailer);
-  }, [trailer]);
-
-
+    console.log("id", id);
+    console.log("Type : ", type);
+    console.log("Trailer : ", trailer);
+    console.log("Vedios : ", videos);
+    console.log("trailerUrl : ", TrailerUrl);
+  }, [videos, id, type, trailer, TrailerUrl]);
 
   const opts = {
-    height: '425',
-    width: '425',
+    height: "428",
+    width: "435",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters
+      autoplay: 1,
+    },
+  };
+
+  const optsDesktop = {
+    height: "640",
+    width: "1830",
+    playerVars: {
       autoplay: 1,
     },
   };
 
   return (
-    <div className='max-w-screen overflow-hidden'>
-      <YouTube videoId={trailer} opts={opts} />
-    </div>
-  )
-}
+    <>
+      <YouTube
+        videoId={trailer}
+        opts={opts}
+        className={`${playState ? "block" : "hidden"} `}
+      />
+    </>
+  );
+};
 
 export default TrailerCard;
