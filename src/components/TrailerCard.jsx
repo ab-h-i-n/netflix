@@ -55,7 +55,7 @@ const TrailerCard = ({ playState, type }) => {
     height: "428",
     width: "435",
     playerVars: {
-      autoplay: 1,
+      autoplay: 0,
     },
   };
 
@@ -63,7 +63,7 @@ const TrailerCard = ({ playState, type }) => {
     height: "640",
     width: "1830",
     playerVars: {
-      autoplay: 1,
+      autoplay: 0,
     },
   };
 
