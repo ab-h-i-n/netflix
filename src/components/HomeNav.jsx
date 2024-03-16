@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MenuBar from "./MenuBar";
 import { supabase } from "../SupaBase";
 import SubmitBtn from "./SubmitBtn";
+import ProfileBtn from "./ProfileBtn";
 
 const HomeNav = ({ hasBack }) => {
   const navigate = useNavigate();
@@ -86,6 +87,10 @@ const HomeNav = ({ hasBack }) => {
         <div onClick={handleSignOut} className="hidden lg:block">
           <SubmitBtn isLoading={false} text={"Sign Out"} />
         </div>
+
+        {/* pofile button  */}
+
+        <ProfileBtn/>
 
       </div>
     </nav>

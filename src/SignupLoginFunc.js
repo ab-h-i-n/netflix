@@ -1,62 +1,73 @@
+import { useState, useEffect } from "react";
 import { supabase } from "./SupaBase";
 
 const SignupLogin = (form) => {
+  const [usrData, setUsrData] = useState();
 
-  // signup
+  // useEffect(() => {
+  //   if (usrData) {
+  //     handleTableCreation();
+  //   }
+  // }, [usrData]);
+
   const handleSignUp = async () => {
     try {
 
-      const { error } = await supabase.auth.signUp({
+      console.log(form);
+
+      const { data,error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
           data: {
-            full_name: form.full_name,
+            full_name: form?.full_name,
           },
         },
       });
-      
+
 
       if (error) {
-        alert(error);
+        alert(error.message);
         return false;
       }
+
+      setUsrData(data);
 
       alert("Signed Up successfully!");
       return true;
 
     } catch (error) {
-      alert(error);
+      alert(error.message);
       return false;
     }
-  }
+  };
 
-  // Login
   const handleLogIn = async () => {
     try {
-
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signIn({
         email: form.email,
         password: form.password,
       });
 
       if (error) {
-        alert(error);
+        alert(error.message);
         return false;
       }
 
-      alert('User Signed Up successfully!');
+      alert("User Logged In successfully!");
       return true;
 
     } catch (error) {
-      alert(error);
+      alert(error.message);
       return false;
     }
   };
 
+
+
   return {
     handleLogIn,
-    handleSignUp
+    handleSignUp,
   };
 };
 

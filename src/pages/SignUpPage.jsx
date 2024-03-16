@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SubmitBtn from "../components/SubmitBtn";
+import { supabase } from "../SupaBase";
+
 
 function SignUpPage({ UsrForm, handleSignUp }) {
 
@@ -17,7 +19,25 @@ function SignUpPage({ UsrForm, handleSignUp }) {
 
     e.preventDefault();
 
-    handleSignUp().then(() => navigate('/')).then(()=>{setLoading(false)});
+    handleSignUp().then(async()=>{
+      
+
+      try {
+        
+        const { data, errors } = await supabase.auth.getUser();
+        console.log("User Data : ",data);
+        const { error } = await supabase.from("UserData").insert([{
+          bio: "",
+          email: data?.user.email,
+          name: data?.user.user_metadata.full_name,
+          id:data?.user.id,
+          photo: "",
+        }])
+      } catch (error) {
+        console.log(error);
+      }
+    })
+    .then(() => navigate('/')).then(()=>{setLoading(false)});
 
   }
 
