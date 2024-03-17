@@ -25,8 +25,8 @@ function SignUpPage({ UsrForm, handleSignUp }) {
       try {
         
         const { data, errors } = await supabase.auth.getUser();
-        console.log("User Data : ",data);
-        const { error } = await supabase.from("UserData").insert([{
+        console.log("user_data : ",data);
+        const { error } = await supabase.from("user_data").insert([{
           bio: "",
           email: data?.user.email,
           name: data?.user.user_metadata.full_name,

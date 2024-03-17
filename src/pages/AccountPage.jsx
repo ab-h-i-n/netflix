@@ -6,22 +6,19 @@ import { supabase } from "../SupaBase";
 const AccountPage = () => {
   const user = useContext(UserContext);
   const navigate = useNavigate();
-  const [isBioEditable, setBioEditable] = useState(false);
-  const [bio, setBio] = useState();
-  const bioField = useRef();
-  const [dp, setDp] = useState("/assets/profile-circle-icon.png");
 
+  const [isEditable, setEditable] = useState(false);
+  const [dp, setDp] = useState("/assets/profile-circle-icon.png");
   const [userDetails, setUserDetails] = useState();
+
+  const bioField = useRef();
+  const nameField = useRef();
 
   const insertData = async () => {
     try {
-      setBio(bioField.current.value);
-      console.log(bio);
-      console.log(user.id);
-
       const { error } = await supabase
-        .from("UserData")
-        .update({ bio: bioField.current.value })
+        .from("user_data")
+        .update({ bio: bioField.current.value, name: nameField.current.value })
         .eq("id", user.id);
 
       if (error) {
@@ -29,16 +26,21 @@ const AccountPage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setEditable(false);
+      fetchData();
     }
   };
 
   const fetchData = async () => {
     const { data, error } = await supabase
-      .from("UserData")
+      .from("user_data")
       .select()
       .eq("id", user.id);
 
     setUserDetails(data);
+
+    console.log(data);
   };
 
   const UserDataField = ({ title, value, children }) => {
@@ -53,6 +55,10 @@ const AccountPage = () => {
     );
   };
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div className="min-h-screen">
       <nav className="p-5">
@@ -63,7 +69,21 @@ const AccountPage = () => {
         </button>
       </nav>
 
-      <main>
+      <main className="realtive">
+        {/* edit button  */}
+
+        <button
+          onClick={() => {
+            setEditable(!isEditable);
+          }}
+          className={`z-[100] absolute top-5 right-5 lg:top-16 bg-zinc-900 hover:bg-zinc-800 px-3 py-3 lg:right-24 text-white flex font-semibold items-center gap-x-3 ${
+            isEditable ? "hidden" : ""
+          } p-3 rounded-full`}
+        >
+          <img src="/assets/pencilBtn.svg" alt="edit" className="w-5" />
+          <span className="hidden lg:block">Edit Profile</span>
+        </button>
+
         {/* image and name  */}
 
         <div className="grid place-content-center gap-y-3 relative">
@@ -74,16 +94,48 @@ const AccountPage = () => {
             onChange={(e) => setDp(URL.createObjectURL(e.target.files[0]))}
             className="absolute hidden"
           />
-          <label htmlFor="photo">
+          <label
+            htmlFor={`${isEditable ? "photo" : "null"}`}
+            className="rounded-full cursor-pointer w-52 h-52 overflow-hidden relative"
+          >
             <img
               src={dp || URL.createObjectURL(dp)}
               alt="Profile"
-              className="w-52 cursor-pointer"
+              className="object-cover w-52 h-52"
+            />
+
+            {/* pencil img  */}
+            <img
+              src="/assets/pencilBtn.svg"
+              alt="Pencil"
+              className={`absolute z-[50] top-[50%] left-[50%] w-10 translate-x-[-50%] translate-y-[-50%] ${
+                isEditable ? "" : "hidden"
+              } `}
             />
           </label>
-          <p className="text-white font-semibold text-center p-2">
-            {user?.user_metadata.full_name}
-          </p>
+
+          {/* user name  */}
+
+          <div className={`relative rounded ${isEditable && "bg-zinc-900"}`}>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              className="text-white font-semibold text-center p-2 bg-transparent outline-none"
+              defaultValue={userDetails?.[0]?.name}
+              readOnly={!isEditable}
+              ref={nameField}
+            />
+
+            {/* pencil img  */}
+            <img
+              src="/assets/pencilBtn.svg"
+              alt="Pencil"
+              className={`absolute z-[50] top-2 right-2 w-5 ${
+                isEditable ? "" : "hidden"
+              } `}
+            />
+          </div>
         </div>
 
         <div className="px-5 mt-5 grid place-items-center gap-5">
@@ -92,41 +144,56 @@ const AccountPage = () => {
           <UserDataField title={"User Email"} value={user?.email} />
 
           {/* bio */}
+
           <div className="relative">
             <UserDataField title={"Bio"} value={""}>
-              <div className="grid">
-                <textarea
-                  name="bio"
-                  id="bio"
-                  cols="30"
-                  rows="5"
-                  className="bg-transparent text-white outline-none border-none"
-                  readOnly={!isBioEditable}
-                  ref={bioField}
-                  defaultValue={bio}
-                ></textarea>
-
-                <button
-                  className={`text-zinc-950 bg-white rounded py-2 px-3 ${
-                    isBioEditable ? "" : "hidden"
-                  }`}
-                  onClick={insertData}
-                >
-                  Save
-                </button>
-              </div>
-
-              <button
-                onClick={() => {
-                  setBioEditable(!isBioEditable);
-                }}
-                className={`absolute top-2  right-2 ${
-                  isBioEditable ? "bg-zinc-500" : ""
-                } p-3 rounded-full`}
-              >
-                <img src="/assets/pencilBtn.svg" alt="edit" className="w-5" />
-              </button>
+              <textarea
+                name="bio"
+                id="bio"
+                cols="30"
+                rows="5"
+                className="bg-transparent text-white outline-none border-none"
+                readOnly={!isEditable}
+                ref={bioField}
+                defaultValue={userDetails?.[0]?.bio || ""}
+              ></textarea>
+              <img
+                src="/assets/pencilBtn.svg"
+                alt="Pencil"
+                className={`absolute top-2 right-2 w-5 ${
+                  isEditable ? "" : "hidden"
+                } `}
+              />
             </UserDataField>
+          </div>
+
+          {/* buttons  */}
+
+          <div className="flex gap-x-5">
+            {/*Cancel button */}
+
+            <button
+              className={`text-zinc-100 bg-red-600 min-w-40 lg:min-w-60 rounded py-2 px-3 ${
+                isEditable ? "" : "hidden"
+              }`}
+              onClick={() => {
+                setEditable(false);
+                window.location.reload();
+              }}
+            >
+              Cancel
+            </button>
+
+            {/* Save button  */}
+
+            <button
+              className={`text-zinc-100 bg-red-600 min-w-40 lg:min-w-60 rounded py-2 px-3 ${
+                isEditable ? "" : "hidden"
+              }`}
+              onClick={insertData}
+            >
+              Save
+            </button>
           </div>
         </div>
       </main>
