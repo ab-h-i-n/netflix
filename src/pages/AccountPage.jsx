@@ -2,17 +2,34 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { UserContext } from "../UserContext";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../SupaBase";
+import SubmitBtn from "../components/SubmitBtn";
 
 const AccountPage = () => {
   const user = useContext(UserContext);
   const navigate = useNavigate();
 
   const [isEditable, setEditable] = useState(false);
-  const [dp, setDp] = useState("/assets/profile-circle-icon.png");
+  const [dp, setDp] = useState();
   const [userDetails, setUserDetails] = useState();
+  const [isLoading, setLoading] = useState(true);
+
 
   const bioField = useRef();
   const nameField = useRef();
+  const dpInput = useRef();
+
+  const timestamp = new Date().getTime();
+
+  const handleSignOut = () => {
+    supabase.auth
+      .signOut()
+      .then(() => {
+        console.log("Signed out");
+      })
+      .catch((error) => {
+        console.log("Error signing out", error);
+      });
+  };
 
   const insertData = async () => {
     try {
@@ -27,8 +44,9 @@ const AccountPage = () => {
     } catch (error) {
       console.log(error);
     } finally {
+      handleImageUpload();
       setEditable(false);
-      fetchData();
+      fetchData().then(() => setLoading(false));
     }
   };
 
@@ -37,10 +55,7 @@ const AccountPage = () => {
       .from("user_data")
       .select()
       .eq("id", user.id);
-
     setUserDetails(data);
-
-    console.log(data);
   };
 
   const UserDataField = ({ title, value, children }) => {
@@ -55,8 +70,67 @@ const AccountPage = () => {
     );
   };
 
+  const handleImageUpload = async () => {
+    try {
+      const profile = dpInput.current.files[0];
+
+      // Upload image to Supabase storage
+      const { data, error } = await supabase.storage
+        .from("photo")
+        .upload(`${user.id}/profile`, profile, {
+          cacheControl: "3600",
+          upsert: true,
+        });
+
+      alert("User profile updated successfully.");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      getProfileUrl();
+    }
+  };
+
+  const getProfileUrl = async () => {
+    const isFileExists = await checkFileExists();
+
+    if (isFileExists) {
+      // Get public URL of the uploaded image
+      const { data: url, error: urlError } = supabase.storage
+        .from("photo")
+        .getPublicUrl(`${user.id}/profile`);
+      setDp(url?.publicUrl + "?" + timestamp);
+      console.log("Profile found");
+    } else {
+      console.log("Profile not found");
+      setDp("/assets/profile-circle-icon.png");
+    }
+  };
+
+  async function checkFileExists() {
+    try {
+      const { data, error } = await supabase.storage
+        .from("photo")
+        .list(`${user.id}`);
+
+      if (error) {
+        console.error("Error listing path:", error.message);
+        return false;
+      }
+
+      console.log(data[0].name);
+
+      if ((data[0]?.name) === `profile`) {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error checking file existence:", error.message);
+      return false;
+    }
+  }
+
   useEffect(() => {
     fetchData();
+    getProfileUrl();
   }, []);
 
   return (
@@ -91,18 +165,21 @@ const AccountPage = () => {
             type="file"
             name="photo"
             id="photo"
-            onChange={(e) => setDp(URL.createObjectURL(e.target.files[0]))}
+            ref={dpInput}
+            onChange={(e) => {
+              if (dpInput.current.files[0]) {
+                setDp(URL.createObjectURL(dpInput.current.files[0]));
+              }
+            }}
             className="absolute hidden"
           />
           <label
             htmlFor={`${isEditable ? "photo" : "null"}`}
             className="rounded-full cursor-pointer w-52 h-52 overflow-hidden relative"
           >
-            <img
-              src={dp || URL.createObjectURL(dp)}
-              alt="Profile"
-              className="object-cover w-52 h-52"
-            />
+            {/* profile photo  */}
+
+            <img src={dp} alt="Profile" className="object-cover w-52 h-52" />
 
             {/* pencil img  */}
             <img
@@ -195,7 +272,18 @@ const AccountPage = () => {
               Save
             </button>
           </div>
+
+          {/* signout button */}
+
+          <div
+            onClick={handleSignOut}
+            className="hidden min-w-[500px] lg:block"
+          >
+            <SubmitBtn isLoading={false} text={"Sign Out"} />
+          </div>
         </div>
+
+        {/* sign out button  */}
       </main>
     </div>
   );

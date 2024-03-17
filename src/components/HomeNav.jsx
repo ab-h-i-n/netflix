@@ -22,17 +22,6 @@ const HomeNav = ({ hasBack }) => {
   }, [isMenuActive]);
 
 
-  const handleSignOut = () => {
-    supabase.auth
-      .signOut()
-      .then(() => {
-        console.log("Signed out");
-      })
-      .catch((error) => {
-        console.log("Error signing out", error);
-      });
-  };
-
   return (
     <nav
       className={` nav w-full flex justify-between px-5 py-8 items-center bg-transparent lg:px-32 `}
@@ -80,13 +69,7 @@ const HomeNav = ({ hasBack }) => {
             className="w-7 lg:w-10"
             alt="Search"
           />
-        </button>
-
-        {/* sign out button  */}
-
-        <div onClick={handleSignOut} className="hidden lg:block">
-          <SubmitBtn isLoading={false} text={"Sign Out"} />
-        </div>
+        </button>     
 
         {/* pofile button  */}
 

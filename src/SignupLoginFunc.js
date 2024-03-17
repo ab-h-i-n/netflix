@@ -15,7 +15,7 @@ const SignupLogin = (form) => {
 
       console.log(form);
 
-      const { data,error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: form.email,
         password: form.password,
         options: {
@@ -44,7 +44,7 @@ const SignupLogin = (form) => {
 
   const handleLogIn = async () => {
     try {
-      const { error } = await supabase.auth.signIn({
+      const { error } = await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });

@@ -30,8 +30,7 @@ function SignUpPage({ UsrForm, handleSignUp }) {
           bio: "",
           email: data?.user.email,
           name: data?.user.user_metadata.full_name,
-          id:data?.user.id,
-          photo: "",
+          id:data?.user.id
         }])
       } catch (error) {
         console.log(error);
