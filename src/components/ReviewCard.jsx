@@ -7,7 +7,15 @@ const ReviewCard = () => {
   const { id } = useParams();
   const user = useContext(UserContext);
   const reviewInput = useRef();
-  const [reviewText, setReviewText] = useState([]);
+  const [movieData, setMovieData] = useState([]);
+
+  const getProfileUrl = () => {
+    const { data: url, error: urlError } = supabase.storage
+      .from("photo")
+      .getPublicUrl(`${user.id}/profile`);
+
+    return url;
+  };
 
   const fetchData = async () => {
     try {
@@ -19,9 +27,8 @@ const ReviewCard = () => {
       if (error) {
         throw error;
       }
-
-      setReviewText(data);
       console.log("Fetched", data);
+      setMovieData(data);
     } catch (error) {
       console.error("Error fetching data:", error.message);
     }
@@ -29,24 +36,51 @@ const ReviewCard = () => {
 
   const postReview = async (e) => {
     e.preventDefault();
-
     try {
+      // Create a new review object
       const newReview = {
         user_id: user?.id,
+        user_name: user?.user_metadata.full_name,
+        user_profile: getProfileUrl()?.publicUrl,
+        timestamp: new Date(Date.now()).toLocaleString(),
         review: reviewInput.current.value,
       };
 
-      const { data, error } = await supabase
-        .from("reviews")
-        .upsert({ movie_id: id, reviews: [newReview] })
-        .select();
+      // If there's no existing reviews array, create a new one
+      const updatedData = {
+        ...movieData[0],
+        reviews: movieData[0]?.reviews
+          ? [...movieData[0].reviews, newReview]
+          : [newReview],
+      };
 
-      if (error) {
-        throw error;
+      console.log("updated data : ", updatedData);
+      console.log("Movie data", movieData);
+
+      if (movieData.length === 0) {
+        // Insert a new row with the new data
+        const { error } = await supabase
+          .from("reviews")
+          .insert({ movie_id: id, reviews: [updatedData.reviews[0]] });
+
+        if (error) {
+          throw error;
+        }
+      } else {
+        // Update the existing row with the new data
+        const { error: updateError } = await supabase
+          .from("reviews")
+          .update(updatedData)
+          .eq("movie_id", id);
+
+        if (updateError) {
+          throw updateError;
+        }
       }
 
-      console.log("Posted data : ", data);
+      console.log("Review posted successfully");
       fetchData(); // Fetch data again after posting the review
+      reviewInput.current.value = ""; // Clear the input field
     } catch (error) {
       console.error("Error posting review:", error.message);
     }
