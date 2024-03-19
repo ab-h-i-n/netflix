@@ -43,14 +43,6 @@ const TrailerCard = ({ playState, type }) => {
     fetchVideo();
   }, [id, type]);
 
-  useEffect(() => {
-    console.log("id", id);
-    console.log("Type : ", type);
-    console.log("Trailer : ", trailer);
-    console.log("Vedios : ", videos);
-    console.log("trailerUrl : ", TrailerUrl);
-  }, [videos, id, type, trailer, TrailerUrl]);
-
   const opts = {
     height: "428",
     width: "435",

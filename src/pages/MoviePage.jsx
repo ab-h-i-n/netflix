@@ -6,6 +6,7 @@ import MovieNav from "../components/MovieNav";
 import MovieDescription from "../components/MovieDescription";
 import SimilarMovies from "../components/SimilarMovies";
 import TrailerCard from "../components/TrailerCard";
+import ReviewBox from "../components/ReviewBox";
 
 const MoviePage = () => {
   const { id, title } = useParams();
@@ -35,9 +36,8 @@ const MoviePage = () => {
         if (resultJson?.title != title) {
           fetchSeries();
         } else {
-            setType("movie");
+          setType("movie");
           setMovie(resultJson);
-          console.log(resultJson);
         }
       } else {
         fetchSeries();
@@ -65,7 +65,6 @@ const MoviePage = () => {
         const resultJson = await response.json();
         setMovie(resultJson);
         setType("tv");
-        console.log(resultJson);
       } else {
         console.error("Failed to fetch movies. Please try again later.");
       }
@@ -134,6 +133,10 @@ const MoviePage = () => {
           <div className="sticky z-[0] bg-zinc-950">
             <MovieDescription movie={movie} />
           </div>
+
+          {/* movie reviews  */}
+
+          <ReviewBox />
 
           {/* more like this  */}
 

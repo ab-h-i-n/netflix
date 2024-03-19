@@ -17,7 +17,8 @@ import Vedio from "./components/TrailerCard";
 import AllMoviesMock from "./pages/AllMoviesMock";
 import { UserContext } from "./UserContext";
 import AccountPage from "./pages/AccountPage";
-import ReviewCard from "./components/ReviewCard";
+import ReviewPage from "./pages/ReviewPage";
+
 
 function App() {
   //form
@@ -101,7 +102,6 @@ function App() {
             <Route path="/test/:id" element={<Vedio />} />
 
             <Route path="/allmovies" element={<AllMoviesMock />} />
-            <Route path="/reviews/:id" element={<ReviewCard/>} />
 
             {/* protected routes */}
             <Route
@@ -133,6 +133,14 @@ function App() {
               element={
                 <ProtectedRoute usrData={usrData} UsrForm={UsrForm}>
                   <MoviePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/movies/:title/:id/reviews"
+              element={
+                <ProtectedRoute usrData={usrData} UsrForm={UsrForm}>
+                  <ReviewPage/>
                 </ProtectedRoute>
               }
             />
