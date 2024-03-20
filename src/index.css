@@ -69,3 +69,22 @@ details > summary {
 details > summary::-webkit-details-marker {
   display: none;
 }
+
+
+.review-add > :first-child{
+
+  animation: reivewAdd .5s forwards;
+}
+
+@keyframes reivewAdd {
+  20% {
+    transform: translateY(-100%);
+    opacity: 0;
+
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+
+  }
+}

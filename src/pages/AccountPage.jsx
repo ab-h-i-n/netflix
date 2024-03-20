@@ -13,7 +13,6 @@ const AccountPage = () => {
   const [userDetails, setUserDetails] = useState();
   const [isLoading, setLoading] = useState(true);
 
-
   const bioField = useRef();
   const nameField = useRef();
   const dpInput = useRef();
@@ -46,7 +45,7 @@ const AccountPage = () => {
     } finally {
       handleImageUpload();
       setEditable(false);
-      fetchData().then(() => setLoading(false));
+      fetchData().then(() => setLoading(false)).then(()=>alert("User profile updated successfully."));
     }
   };
 
@@ -71,62 +70,45 @@ const AccountPage = () => {
   };
 
   const handleImageUpload = async () => {
-    try {
-      const profile = dpInput.current.files[0];
+    if (dpInput.current.files[0]) {
+      try {
+        const profile = dpInput.current.files[0];
 
-      // Upload image to Supabase storage
-      const { data, error } = await supabase.storage
-        .from("photo")
-        .upload(`${user.id}/profile`, profile, {
-          cacheControl: "3600",
-          upsert: true,
-        });
-
-      alert("User profile updated successfully.");
-    } catch (error) {
-      console.error(error);
-    } finally {
-      getProfileUrl();
+        // Upload image to Supabase storage
+        const { data, error } = await supabase.storage
+          .from("photo")
+          .upload(`${user.id}/profile`, profile, {
+            cacheControl: "3600",
+            upsert: true,
+          });
+      } catch (error) {
+        console.error(error);
+      } finally {
+        getProfileUrl();
+      }
     }
   };
 
   const getProfileUrl = async () => {
-    const isFileExists = await checkFileExists();
-
-    if (isFileExists) {
+    try {
       // Get public URL of the uploaded image
-      const { data: url, error: urlError } = supabase.storage
+      const { data: url, error: urlError } = await supabase.storage
         .from("photo")
         .getPublicUrl(`${user.id}/profile`);
+
+      if (urlError) {
+        console.error("Error getting profile URL:", urlError.message);
+        setDp("/assets/profile-circle-icon.png");
+        return;
+      }
+
       setDp(url?.publicUrl + "?" + timestamp);
       console.log("Profile found");
-    } else {
-      console.log("Profile not found");
+    } catch (error) {
+      console.error("Error getting profile URL:", error.message);
       setDp("/assets/profile-circle-icon.png");
     }
   };
-
-  async function checkFileExists() {
-    try {
-      const { data, error } = await supabase.storage
-        .from("photo")
-        .list(`${user.id}`);
-
-      if (error) {
-        console.error("Error listing path:", error.message);
-        return false;
-      }
-
-      console.log(data[0].name);
-
-      if ((data[0]?.name) === `profile`) {
-        return true;
-      }
-    } catch (error) {
-      console.error("Error checking file existence:", error.message);
-      return false;
-    }
-  }
 
   useEffect(() => {
     fetchData();

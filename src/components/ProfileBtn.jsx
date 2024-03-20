@@ -22,7 +22,11 @@ const ProfileBtn = () => {
 
   return (
     <Link to={"/profile"} className="bg-zinc-600 rounded-full">
-      <img src={dp} alt="Profile" className="w-10 h-10 lg:w-14 lg:h-14 rounded-full" />
+      <img
+        src={dp}
+        alt="Profile"
+        className="w-full object-cover lg:w-14 lg:h-14 rounded-full"
+      />
     </Link>
   );
 };

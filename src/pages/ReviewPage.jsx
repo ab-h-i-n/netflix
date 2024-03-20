@@ -10,6 +10,7 @@ const ReviewPage = () => {
   const [movieData, setMovieData] = useState([]);
   const navigate = useNavigate();
   const [isReviewadded, setReviewAdded] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -51,12 +52,18 @@ const ReviewPage = () => {
       {/* add review  */}
 
       <AddReview
+        animate={animate}
+        setAnimate={setAnimate}
         setReviewAdded={setReviewAdded}
         isReviewAdded={isReviewadded}
       />
 
       {/* reviews  */}
-      <div className="grid gap-y-5 px-5 py-5 place-items-center">
+      <div
+        className={`transition-all grid gap-y-5 px-5 py-5 place-items-center ${
+          animate && "review-add"
+        }`}
+      >
         {movieData[0]?.reviews
           ?.slice()
           .reverse()

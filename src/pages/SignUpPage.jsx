@@ -1,49 +1,69 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import SubmitBtn from "../components/SubmitBtn";
 import { supabase } from "../SupaBase";
-
+import { UserContext } from "../UserContext";
 
 function SignUpPage({ UsrForm, handleSignUp }) {
-
   const navigate = useNavigate();
+  const user = useContext(UserContext);
 
-  const { form, handleMailChange, handlePassChange, handleNameChange } = UsrForm;
+  const { form, handleMailChange, handlePassChange, handleNameChange } =
+    UsrForm;
 
-  const [isLoading , setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   const handleSignUpSubmit = async (e) => {
-
-    setLoading(true)
+    setLoading(true);
 
     e.preventDefault();
 
-    handleSignUp().then(async()=>{
-      
+    handleSignUp()
+      .then(async () => {
+        // create a row in user_data table with the user's email and name
+        try {
+          const { data, errors } = await supabase.auth.getUser();
+          console.log("user_data : ", data);
+          const { error } = await supabase.from("user_data").insert([
+            {
+              bio: "",
+              email: data?.user.email,
+              name: data?.user.user_metadata.full_name,
+              id: data?.user.id,
+            },
+          ]);
 
-      try {
-        
-        const { data, errors } = await supabase.auth.getUser();
-        console.log("user_data : ",data);
-        const { error } = await supabase.from("user_data").insert([{
-          bio: "",
-          email: data?.user.email,
-          name: data?.user.user_metadata.full_name,
-          id:data?.user.id
-        }])
-      } catch (error) {
-        console.log(error);
-      }
-    })
-    .then(() => navigate('/')).then(()=>{setLoading(false)});
+          const defaultProfileUrl = "/assets/profile-circle-icon.png";
 
-  }
+          // Fetch the default profile image
+          const response = await fetch(defaultProfileUrl);
+          const blob = await response.blob();
+
+          //create a folder in storage for the user's profile picture
+          const { error: urlError } = await supabase.storage
+            .from("photo")
+            .upload(`${data?.user.id}/profile`, blob, {
+              cacheControl: "3600",
+              upsert: true,
+            });
+
+          if (urlError) {
+            console.log("urlError : ", urlError);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      })
+      .then(() => navigate("/"))
+      .then(() => {
+        setLoading(false);
+      });
+  };
 
   return (
     <section className="netback">
-
-      <Navbar/>
+      <Navbar />
 
       {/* other contents  */}
 
@@ -53,7 +73,11 @@ function SignUpPage({ UsrForm, handleSignUp }) {
             <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-white">
               Create account
             </h1>
-            <form onSubmit={handleSignUpSubmit} className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={handleSignUpSubmit}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
               <div>
                 <label
                   htmlFor="name"
@@ -119,20 +143,21 @@ function SignUpPage({ UsrForm, handleSignUp }) {
                 <div className="ml-3 text-sm">
                   <label htmlFor="terms" className="font-light text-gray-400 ">
                     I accept the{" "}
-                    <span
-                      className="font-medium  hover:underline text-red-500"
-                    >
+                    <span className="font-medium  hover:underline text-red-500">
                       Terms and Conditions
                     </span>
                   </label>
                 </div>
               </div>
 
-              <SubmitBtn text="Create Account" isLoading={isLoading}/>
+              <SubmitBtn text="Create Account" isLoading={isLoading} />
 
               <p className="text-sm font-light text-gray-400 ">
                 Already have an account?{" "}
-                <Link to="/login" className="font-medium  hover:underline text-red-500">
+                <Link
+                  to="/login"
+                  className="font-medium  hover:underline text-red-500"
+                >
                   Login here
                 </Link>
               </p>

@@ -8,6 +8,7 @@ const ReviewBox = () => {
   const { id, title } = useParams();
   const [movieData, setMovieData] = useState([]);
   const [isReviewadded, setReviewAdded] = useState(false);
+  const [animate, setAnimate] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -30,23 +31,29 @@ const ReviewBox = () => {
     fetchData();
   }, [isReviewadded]);
   return (
-    <div className="mx-10 lg:mx-24 my-10">
+    <div className="transition-all mx-10 lg:mx-24 my-10">
       <h1 className="text-xl lg:text-3xl font-semibold text-white py-5 ">
         Reviews
       </h1>
 
       {/* add review  */}
       <AddReview
+        animate={animate}
+        setAnimate={setAnimate}
         setReviewAdded={setReviewAdded}
         isReviewAdded={isReviewadded}
       />
 
-      <div className="grid gap-y-5 mt-5 place-content-center">
+      <div
+        className={`transition-all grid gap-y-5 mt-5 place-content-center ${
+          animate ? "review-add" : ""
+        }`}
+      >
         {movieData[0]?.reviews
           ?.slice(-2)
           .reverse()
-          .map((review) => (
-            <ReviewCard review={review} />
+          .map((review, index) => (
+            <ReviewCard key={`reviews_review_box_${index}`} review={review} />
           ))}
       </div>
       {movieData?.length === 0 ? (

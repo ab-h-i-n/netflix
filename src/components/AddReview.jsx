@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../SupaBase";
 import { UserContext } from "../UserContext";
 import { useParams } from "react-router-dom";
+import ProfileBtn from "./ProfileBtn";
 
-const AddReview = ({ setReviewAdded, isReviewAdded }) => {
+const AddReview = ({ setReviewAdded, isReviewAdded, setAnimate, animate }) => {
   const [dp, setDp] = useState();
   const { id } = useParams();
   const user = useContext(UserContext);
@@ -85,6 +86,7 @@ const AddReview = ({ setReviewAdded, isReviewAdded }) => {
     } catch (error) {
       console.error("Error posting review:", error.message);
     } finally {
+      setAnimate(true);
       setReviewAdded(!isReviewAdded);
     }
   };
@@ -94,22 +96,34 @@ const AddReview = ({ setReviewAdded, isReviewAdded }) => {
   };
 
   useEffect(() => {
+    let timeout;
+
+    if (animate) {
+      timeout = setTimeout(() => {
+        setAnimate(false);
+      }, 500);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [isReviewAdded]);
+
+  useEffect(() => {
     getProfileUrl();
     fetchData();
   }, []);
   return (
-    <div className="grid place-items-center my-5 lg:my-10">
+    <div className="relative z-[100] grid place-items-center my-5 lg:my-10">
       <form onSubmit={postReview} className="min-w-[350px] lg:min-w-[800px]">
         {/* image and input  */}
         <div className="flex gap-x-5 items-center">
-          <img src={dp} alt="user" className="w-14 rounded-full" />
+          <ProfileBtn />
           {/* input  */}
           <input
             ref={reviewInput}
             onChange={handleInputChange}
             type="text"
             placeholder="Add Review"
-            className="w-full outline-none border-t-none border-b-[1px] focus:border-b-2 focus:font-medium border-white bg-transparent text-white placeholder-white"
+            className="transition-all w-full outline-none border-t-none border-b-[1px] focus:border-b-2 focus:font-medium border-white bg-transparent text-white placeholder-white"
           />
         </div>
 
@@ -126,7 +140,9 @@ const AddReview = ({ setReviewAdded, isReviewAdded }) => {
             type="submit"
             className={`${
               !hasValue && "opacity-30"
-            } bg-zinc-900 font-medium text-white py-2 px-3 rounded-full ${hasValue && "hover:bg-zinc-800"}`}
+            } bg-zinc-900 font-medium text-white py-2 px-3 rounded-full ${
+              hasValue && "hover:bg-zinc-800"
+            }`}
           >
             Post
           </button>
