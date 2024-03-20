@@ -10,7 +10,7 @@ const ReviewCard = ({ review }) => {
           {/* profile photo  */}
           <div className="rounded-full w-10 h-10 lg:w-12 lg:h-12 overflow-hidden">
             <img
-              src={review?.user_profile + "?" + Date().now}
+              src={review?.user_profile + "?" + new Date().getTime()}
               alt={review?.user_name}
               className="object-cover w-full h-full"
             />

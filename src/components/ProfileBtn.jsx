@@ -21,7 +21,7 @@ const ProfileBtn = () => {
   }, []);
 
   return (
-    <Link to={"/profile"} className="bg-zinc-600 w-10 h-10 lg:w-14 lg:h-14  rounded-full">
+    <Link to={"/profile"} className="bg-zinc-600 overflow-hidden w-10 h-10 lg:w-14 lg:h-14 rounded-full">
       <img
         src={dp}
         alt="Profile"
