@@ -123,7 +123,7 @@ const AddReview = ({ setReviewAdded, isReviewAdded, setAnimate, animate }) => {
             onChange={handleInputChange}
             type="text"
             placeholder="Add Review"
-            className="transition-all w-full outline-none border-t-none border-b-[1px] focus:border-b-2 focus:font-medium border-white bg-transparent text-white placeholder-white"
+            className="transition-all flex-1 w-full outline-none border-t-none border-b-[1px] focus:border-b-2 focus:font-medium border-white bg-transparent text-white placeholder-white"
           />
         </div>
 

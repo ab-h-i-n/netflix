@@ -8,7 +8,7 @@ const ReviewCard = ({ review }) => {
         {/* user  */}
         <div className="flex gap-x-3 items-center">
           {/* profile photo  */}
-          <div className="rounded-full w-10 h-10 lg:w-12 lg:h-12 overflow-hidden">
+          <div className="rounded-full flex-1 w-10 h-10 lg:w-12 lg:h-12 overflow-hidden">
             <img
               src={review?.user_profile + "?" + new Date().getTime()}
               alt={review?.user_name}
