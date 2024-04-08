@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { apiKey, apiToken } from "../env";
-import YouTube from "react-youtube";
+import { apiToken } from "../env";
 
 const TrailerCard = ({ playState, type }) => {
   const { id } = useParams();
   const [videos, setVideos] = useState([]);
   const [trailer, setTrailer] = useState(null);
 
-  const TrailerUrl = `https://www.youtube.com/watch?v=${trailer}`;
+  const TrailerUrl = `https://www.youtube.com/embed/${trailer}`;
 
   const fetchVideo = async () => {
     try {
@@ -43,30 +42,17 @@ const TrailerCard = ({ playState, type }) => {
     fetchVideo();
   }, [id, type]);
 
-  const opts = {
-    height: "428",
-    width: "435",
-    playerVars: {
-      autoplay: 0,
-    },
-  };
-
-  const optsDesktop = {
-    height: "640",
-    width: "1830",
-    playerVars: {
-      autoplay: 0,
-    },
-  };
-
   return (
-    <>
-      <YouTube
-        videoId={trailer}
-        opts={opts}
-        className={`${playState ? "block" : "hidden"} `}
-      />
-    </>
+    <iframe
+      className={`w-screen aspect-video ${
+        playState ? "" : "hidden"
+      } lg:w-[50vw] `}
+      src={TrailerUrl}
+      title="YouTube video player"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+      referrerPolicy="strict-origin-when-cross-origin"
+      allowFullScreen=""
+    ></iframe>
   );
 };
 

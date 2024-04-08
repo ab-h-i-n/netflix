@@ -91,7 +91,7 @@ const MoviePage = () => {
           <div className="relative">
             {/* trailer  */}
 
-            <div className="backdrop-clip bottom-[3px] absolute z-[50] ">
+            <div className={`backdrop-clip bottom-[0px] flex justify-center items-center h-full absolute z-[50]  w-screen ${playState ? 'bg-[#0000007d] backdrop-blur-md' : ''}`}>
               <TrailerCard playState={playState} type={type} />
             </div>
 
